@@ -1,24 +1,8 @@
-# RepositorioTemplate
-Esse repositório é para ser utilizado pelos grupos como um template inicial, da home page do Projeto.
-
-**!! *Atenção: Renomeie o seu repositório para (Ano.Semestre)_(Grupo)_(Paradigma)_(NomeDoProjeto)*. !!** 
-
-Paradigmas:
- - Funcional
- - Logico
- - SMA
-
-**!! *Não coloque os nomes dos alunos no título do repositório*. !!**
-
-**!! *Exemplo de título correto: 2021.2_G1_Logico_ProjetoRoteirosAereos*. !!**
- 
- (Apague essa seção)
-
-# NomeDoProjeto
+# Hospital Triage
 
 **Disciplina**: FGA0210 - PARADIGMAS DE PROGRAMAÇÃO - T01 <br>
-**Nro do Grupo**: XX<br>
-**Paradigma**: XXXXXXXXXX<br>
+**Nro do Grupo**: 02<br>
+**Paradigma**: Lógico<br>
 
 ## Alunos
 |Matrícula | Aluno |
@@ -27,13 +11,13 @@ Paradigmas:
 | xx/xxxxxx  |  xxxx xxxx xxxxx |
 
 ## Sobre 
-Descreva o seu projeto em linhas gerais. 
+O projeto contempla a implementação de um sistema de triagem de pacientes considerando um contexto hospitalar.
 
 ## Screenshots
 Adicione 2 ou mais screenshots do projeto em termos de interface e/ou funcionamento.
 
 ## Instalação 
-**Linguagens**: xxxxxx<br>
+**Linguagens**: Prolog<br>
 **Tecnologias**: xxxxxx<br>
 Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 Insira um manual ou um script para auxiliar ainda mais.
