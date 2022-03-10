@@ -48,4 +48,4 @@ handle_request_add(Request) :-
 server(Port) :-
     http_server(http_dispatch, [port(Port)]).
 
-:- initialization(server(8000)).
+
