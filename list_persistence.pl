@@ -41,3 +41,16 @@ get_patient_list(PatientsList) :-
     json_read_dict(StreamIn, DictIn),
     close(StreamIn),
     PatientsList = DictIn.
+
+call_next_patient(Patient) :-
+    FPath = 'patients.json',
+    open(FPath, read, StreamIn),
+    json_read_dict(StreamIn, DictIn),
+    close(StreamIn),
+
+    select(Patient, DictIn.queue, ResultList),
+    DictOut = DictIn.put(queue, ResultList),
+
+    tell(FPath),
+    json_write_dict(current_output, DictOut, [null('')]),
+    told.
