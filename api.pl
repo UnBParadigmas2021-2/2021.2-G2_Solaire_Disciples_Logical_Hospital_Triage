@@ -12,17 +12,6 @@
 %.
 % COMPUTATION FUNCTIONS .
 %.
-% Calculates a - b.
-solve_sub(_{a:X, b:Y}, _{answer:N}) :-
-    number(X),
-    number(Y),
-    N is X - Y.
-
-% Calculates a + b.
-solve_add(_{a:X, b:Y}, _{answer:N}) :-
-    number(X),
-    number(Y),
-    N is X + Y.
 
 hello_world(_{message: N}) :-
     N = "hello world!".
