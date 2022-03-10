@@ -4,13 +4,13 @@
 :- use_module(library(lists)).
 :- use_module(library(dicts)).
 
-insert_patient_to_queue(_{nome:N}) :-
+insert_patient_to_queue(_{nome:N, manchester_priority: M}) :-
     FPath = 'patients.json',
     open(FPath, read, StreamIn),
     json_read_dict(StreamIn, DictIn),
     close(StreamIn),
     now(T),
-    append(DictIn.queue, [_{nome:N, arrival_time:T}], PatientList),
+    append(DictIn.queue, [_{nome:N, manchester_priority: M, arrival_time:T, relative_priority: M}], PatientList),
     DictOut = DictIn.put(queue, PatientList),
     tell(FPath),
     json_write_dict(current_output, DictOut, [null('')]),
@@ -54,3 +54,30 @@ call_next_patient(Patient) :-
     tell(FPath),
     json_write_dict(current_output, DictOut, [null('')]),
     told.
+
+
+update_relative_priority(UpdateStatus) :-
+    FPath = 'patients.json',
+    open(FPath, read, StreamIn),
+    json_read_dict(StreamIn, DictIn),
+    close(StreamIn),
+    update_item_priority(DictIn.queue, []),
+    UpdateStatus = "Ok".
+    
+
+update_item_priority([], UpdatedList) :- 
+    FPath = 'patients.json',
+    open(FPath, read, StreamIn),
+    json_read_dict(StreamIn, DictIn),
+    close(StreamIn),
+    DictOut = DictIn.put(queue, UpdatedList),
+
+    tell(FPath),
+    json_write_dict(current_output, DictOut, [null('')]),
+    told.
+
+update_item_priority([H|T], UpdatedList) :-
+    RelativePriority is H.relative_priority - (H.manchester_priority * 0.1),
+    UpdatedValue = H.put(relative_priority, RelativePriority),
+    append(UpdatedList, [UpdatedValue], NewUpdatedList),
+    update_item_priority(T, NewUpdatedList).

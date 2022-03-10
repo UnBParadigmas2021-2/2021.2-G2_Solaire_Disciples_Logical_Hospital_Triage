@@ -7,7 +7,9 @@
 % URL handlers.
 :- http_handler('/', handle_request_default, []).
 :- http_handler('/register-patient', handle_patient_registration, []).
-:- http_handler('/get-patients/arrival-order', handle_list_by_arrival, []).
+:- http_handler('/get-patients/arrival-order', handle_list_sort_by_arrival, []).
+:- http_handler('/get-patients/manchester-order', handle_list_sort_by_manchester, []).
+:- http_handler('/get-patients/manchester-order', handle_list_sort_by_relative_priority, []).
 :- http_handler('/call-patient', handle_call_patient, []).
 
 %.
@@ -30,11 +32,23 @@ handle_request_default(_Request) :-
 handle_patient_registration(Request) :-
     http_read_json_dict(Request, Query),
     insert_patient_to_queue(Query),
+    update_relative_priority(UpdateStatus),
     reply_json_dict(_{status: "Ok"}).
+    
+% GET Request
+handle_list_sort_by_arrival(_Request) :-
+    sort_patients_by(arrival_time),
+    get_patient_list(PatientsList),
+    reply_json_dict(PatientsList).
 
 % GET Request
-handle_list_by_arrival(_Request) :-
-    sort_patients_by(arrival_time),
+handle_list_sort_by_manchester(_Request) :-
+    sort_patients_by(manchester_priority),
+    get_patient_list(PatientsList),
+    reply_json_dict(PatientsList).
+
+handle_list_sort_by_relative_priority(_Request) :-
+    sort_patients_by(relative_priority),
     get_patient_list(PatientsList),
     reply_json_dict(PatientsList).
 
@@ -45,5 +59,3 @@ handle_call_patient(_Request) :-
 
 server(Port) :-
     http_server(http_dispatch, [port(Port)]).
-
-
