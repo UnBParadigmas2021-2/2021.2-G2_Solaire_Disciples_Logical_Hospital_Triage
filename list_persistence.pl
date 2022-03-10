@@ -3,7 +3,7 @@
 :- use_module(library(lists)).
 :- use_module(library(dicts)).
 
-insert_patient_to_queue({nome:N}) :-
+insert_patient_to_queue(_{nome:N}) :-
     FPath = 'patients.json',
     open(FPath, read, StreamIn),
     json_read_dict(StreamIn, DictIn),

@@ -1,3 +1,5 @@
+:- [list_persistence].
+
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
@@ -6,6 +8,7 @@
 :- http_handler('/add', handle_request_add, []).
 :- http_handler('/sub', handle_request_sub, []).
 :- http_handler('/', handle_request_default, []).
+:- http_handler('/register-patient', handle_patient_registration, []).
 
 %.
 % COMPUTATION FUNCTIONS .
@@ -44,6 +47,11 @@ handle_request_add(Request) :-
     http_read_json_dict(Request, Query),
     solve_add(Query, Solution), % logic to be processed.
     reply_json_dict(Solution).
+
+handle_patient_registration(Request) :-
+    http_read_json_dict(Request, Query),
+    insert_patient_to_queue(Query),
+    reply_json_dict(_{status: "Ok"}).
 
 server(Port) :-
     http_server(http_dispatch, [port(Port)]).
