@@ -1,12 +1,32 @@
 % Logic to handle triage_category
 
-% 1. Collect some info about the patients
+% Legend: 1 -> Red, 2 -> Orange, 3 -> Yellow, 4-> Green, 5-> Blue.
 
-triage_info :- 
-    write('Enter the patient ID: '),
-    read(PatientID),
-    write('Enter the patient name: '),
-    read(PatientName),
-    write('Enter the patient age: '),
-    read(PatientAge),
-    write('Enter the patient: '),
+% Facts -> syntoms and urgency
+
+category(hemorrhage, red).
+category(convulsion, red).
+category(heartAttack, red).
+category(irresponsiveChild, red).
+
+category(intensePain, orange).
+category(feverishChild, orange).
+category(unconscious, orange).
+category(fever, orange).
+
+category(moderatePain, yellow).
+category(vomit, yellow).
+category(moderateFever, yellow).
+
+category(recentProblem, green).
+category(respiratoryInfection, green).
+
+
+
+
+
+
+
+
+
+
