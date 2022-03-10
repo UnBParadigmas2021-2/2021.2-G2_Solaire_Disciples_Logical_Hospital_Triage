@@ -5,8 +5,6 @@
 :- use_module(library(http/http_json)).
 
 % URL handlers.
-:- http_handler('/add', handle_request_add, []).
-:- http_handler('/sub', handle_request_sub, []).
 :- http_handler('/', handle_request_default, []).
 :- http_handler('/register-patient', handle_patient_registration, []).
 :- http_handler('/get-patients/arrival-order', handle_list_by_arrival, []).
@@ -36,18 +34,6 @@ hello_world(_{message: N}) :-
 handle_request_default(_Request) :-
     hello_world(Response), % logic to be processed.
     reply_json_dict(Response).
-
-
-handle_request_sub(Request) :-
-    http_read_json_dict(Request, Query),
-    solve_sub(Query, Solution), % logic to be processed.
-    reply_json_dict(Solution).
-
-
-handle_request_add(Request) :-
-    http_read_json_dict(Request, Query),
-    solve_add(Query, Solution), % logic to be processed.
-    reply_json_dict(Solution).
 
 handle_patient_registration(Request) :-
     http_read_json_dict(Request, Query),
