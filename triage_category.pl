@@ -31,39 +31,50 @@ getIdade :-
     assert(idade(Idade)).
 
 getPainScale :- 
-    write('Type the scale of patient: '),
+    write('Type the scale of pain: '),
     read(PainScale),
     assert(painScale(PainScale)).
 
 isBleeding :- 
-    write('Is patient bleeding? (yes/no): '),
+    write('Is the patient bleeding? (yes/no): '),
     read(Bleeding),
     assert(bleeding(Bleeding)).
 
 isFeverish :- 
-    write('Is patient feverish? (yes/no): '),
+    write('Is the patient feverish? (yes/no): '),
     read(Feverish),
     assert(feverish(Feverish)).
 
 isVomiting :- 
-    write('Is patient vomiting? (yes/no): '),
+    write('Is the patient vomiting? (yes/no): '),
     read(Vomit),
     assert(vomit(Vomit)).
 
 isPregnant :- 
-    write('Is patient pregnant? (yes/no): '),
+    write('Is the patient pregnant? (yes/no): '),
     read(Pregnant),
     assert(pregnite(Pregnant)).
 
 getPressure :- 
-    write('Type the pressure of patient: '),
+    write('Type the pressure of the patient: '),
     read(Pressure),
     assert(pressure(Pressure)).
 
 hasChestPain :- 
-    write('Is patient chest pain? (yes/no): '),
+    write('Is the patient with chest pain? (yes/no): '),
     read(ChestPain),
     assert(chestPain(ChestPain)).
+
+
+% Rules to age
+
+isChild:- idade(Idade), Idade < 5,!.
+isElderly :- idade(Idade), Idade > 65, !.
+
+
+    
+
+
 
 
 
