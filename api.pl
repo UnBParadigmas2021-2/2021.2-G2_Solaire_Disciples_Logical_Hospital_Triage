@@ -7,7 +7,8 @@
 % URL handlers.
 :- http_handler('/', handle_request_default, []).
 :- http_handler('/register-patient', handle_patient_registration, []).
-:- http_handler('/get-patients/arrival-order', handle_list_by_arrival, []).
+:- http_handler('/get-patients/arrival-order', handle_list_sort_by_arrival, []).
+:- http_handler('/get-patients/manchester-order', handle_list_sort_by_manchester, []).
 :- http_handler('/call-patient', handle_call_patient, []).
 
 %.
@@ -33,8 +34,14 @@ handle_patient_registration(Request) :-
     reply_json_dict(_{status: "Ok"}).
 
 % GET Request
-handle_list_by_arrival(_Request) :-
+handle_list_sort_by_arrival(_Request) :-
     sort_patients_by(arrival_time),
+    get_patient_list(PatientsList),
+    reply_json_dict(PatientsList).
+
+% GET Request
+handle_list_sort_by_manchester(_Request) :-
+    sort_patients_by(manchester_priority),
     get_patient_list(PatientsList),
     reply_json_dict(PatientsList).
 
