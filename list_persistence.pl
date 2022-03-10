@@ -22,3 +22,22 @@ initialize_json :-
     tell(FPath),
     json_write_dict(current_output, _{queue:[]}, [null('')]),
     told.
+
+
+sort_patients_by(Key) :-
+    FPath = 'patients.json',
+    open(FPath, read, StreamIn),
+    json_read_dict(StreamIn, DictIn),
+    close(StreamIn),
+    sort(Key, @=<, DictIn.queue, SortedList),
+    DictOut = DictIn.put(queue, SortedList),
+    tell(FPath),
+    json_write_dict(current_output, DictOut, [null('')]),
+    told.
+
+get_patient_list(PatientsList) :-
+    FPath = 'patients.json',
+    open(FPath, read, StreamIn),
+    json_read_dict(StreamIn, DictIn),
+    close(StreamIn),
+    PatientsList = DictIn.

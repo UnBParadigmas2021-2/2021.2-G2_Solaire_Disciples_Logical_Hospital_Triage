@@ -9,6 +9,7 @@
 :- http_handler('/sub', handle_request_sub, []).
 :- http_handler('/', handle_request_default, []).
 :- http_handler('/register-patient', handle_patient_registration, []).
+:- http_handler('/get-patients/arrival-order', handle_list_by_arrival, []).
 
 %.
 % COMPUTATION FUNCTIONS .
@@ -52,6 +53,11 @@ handle_patient_registration(Request) :-
     http_read_json_dict(Request, Query),
     insert_patient_to_queue(Query),
     reply_json_dict(_{status: "Ok"}).
+
+handle_list_by_arrival(_Request) :-
+    sort_patients_by(arrival_time),
+    get_patient_list(PatientsList),
+    reply_json_dict(PatientsList).
 
 server(Port) :-
     http_server(http_dispatch, [port(Port)]).
