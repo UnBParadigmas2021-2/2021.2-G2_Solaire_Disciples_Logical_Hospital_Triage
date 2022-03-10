@@ -4,13 +4,13 @@
 :- use_module(library(lists)).
 :- use_module(library(dicts)).
 
-insert_patient_to_queue(_{nome:N}) :-
+insert_patient_to_queue(_{nome:N, manchester_priority: M}) :-
     FPath = 'patients.json',
     open(FPath, read, StreamIn),
     json_read_dict(StreamIn, DictIn),
     close(StreamIn),
     now(T),
-    append(DictIn.queue, [_{nome:N, arrival_time:T}], PatientList),
+    append(DictIn.queue, [_{nome:N, manchester_priority: M, arrival_time:T}], PatientList),
     DictOut = DictIn.put(queue, PatientList),
     tell(FPath),
     json_write_dict(current_output, DictOut, [null('')]),
