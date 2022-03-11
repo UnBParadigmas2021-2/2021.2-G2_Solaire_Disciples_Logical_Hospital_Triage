@@ -9,7 +9,7 @@
 :- http_handler('/register-patient', handle_patient_registration, []).
 :- http_handler('/get-patients/arrival-order', handle_list_sort_by_arrival, []).
 :- http_handler('/get-patients/manchester-order', handle_list_sort_by_manchester, []).
-:- http_handler('/get-patients/manchester-order', handle_list_sort_by_relative_priority, []).
+:- http_handler('/get-patients/relative-order', handle_list_sort_by_relative_priority, []).
 :- http_handler('/call-patient', handle_call_patient, []).
 
 %.
