@@ -24,18 +24,18 @@
   flex-direction: row;
 }
 
-.List-Patients {
+.Add-Patients {
   margin-top: 40px;
   margin: 40px;
   justify-content: space-between;
   flex-direction: row;
 }
 
-.List-Patients > form {
+.Add-Patients > form {
   margin: 20px;
 }
 
-.List-Patients > input {
+.Add-Patients > input {
   margin: 20px;
 }
 
