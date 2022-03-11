@@ -14,13 +14,14 @@ export default function App() {
     await api
       .get("/get-patients/manchester-order")
       .then((result) => {
-        console.log(result)
         console.log('deu certo dessa vez')
-        // patientList = result.data.queue;
-        // setManchesterPatientList(patientList)
+        let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
+        patientList = JSON.parse(result.data.replace(regex, ''))
+        console.log(patientList)
+        setManchesterPatientList(patientList)
       })
       .catch((error) => {
-        console.log('erro')
+        console.log(error)
       });
     
   };
