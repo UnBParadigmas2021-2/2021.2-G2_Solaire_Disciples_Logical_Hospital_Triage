@@ -14,50 +14,53 @@ export default function App() {
     await api
       .get("/get-patients/manchester-order")
       .then((result) => {
-        patientList = result.data;
+        console.log(result)
+        console.log('deu certo dessa vez')
+        // patientList = result.data.queue;
+        // setManchesterPatientList(patientList)
       })
       .catch((error) => {
-        patientList = {};
+        console.log('erro')
       });
-    return patientList;
+    
   };
 
-  const getRelativeOrderList = async () => {
-    let patientList = null;
-    await api
-      .get("/get-patients/relative-order")
-      .then((result) => {
-        patientList = result.data;
-      })
-      .catch((error) => {
-        patientList = {};
-      });
-    return patientList;
-  };
+  // const getRelativeOrderList = async () => {
+  //   let patientList = null;
+  //   await api
+  //     .get("/get-patients/relative-order")
+  //     .then((result) => {
+  //       patientList = result.data;
+  //     })
+  //     .catch((error) => {
+  //       patientList = {};
+  //     });
+  //   return patientList;
+  // };
 
-  const getArrivalOrderList = async () => {
-    let patientList = null;
-    await api
-      .get("/get-patients/arrival-order")
-      .then((result) => {
-        patientList = result.data;
-      })
-      .catch((error) => {
-        patientList = {};
-      });
-    return patientList;
-  };
+  // const getArrivalOrderList = async () => {
+  //   let patientList = null;
+  //   await api
+  //     .get("/get-patients/arrival-order")
+  //     .then((result) => {
+  //       patientList = result.data;
+  //     })
+  //     .catch((error) => {
+  //       patientList = {};
+  //     });
+  //   setArrivalPatientList(patientList);
+  // };
 
   const getData = async() => {
     setManchesterPatientList(getManchesterOrderList());
-    setRelativePatientList(getRelativeOrderList());
-    setArrivalPatientList(getArrivalOrderList());
+    // setRelativePatientList(getRelativeOrderList());
+    // setArrivalPatientList(getArrivalOrderList());
   }
 
   useEffect(() => {
     if (isLoading === true) {
       getData()
-      if(ManchesterPatientList && RelativePatientList && ArrivalPatientList){
+      if(ManchesterPatientList){
         setIsLoading(false)
       }
     }
@@ -81,7 +84,9 @@ export default function App() {
             </div>
 
             <div className="App-container">
-              <div className="List-Patients"></div>
+              <div className="List-Patients">
+                
+              </div>
 
               <div className="Add-Patients">
                 <form>
