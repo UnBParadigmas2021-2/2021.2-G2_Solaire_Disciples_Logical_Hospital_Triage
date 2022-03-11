@@ -71,7 +71,7 @@ export default function App() {
         <>
           <div
             className="App"
-            style={{ background: "linear-gradient(yellow,black)" }}
+            style={{ background: "linear-gradient(45deg, rgba(254,203,125,1) 0%, rgba(255,244,171,1) 23%, rgba(255,193,153,1) 100%)" }}
           >
             <div className="Header-Container">
               <header className="App-header">
