@@ -9,6 +9,9 @@ export default function App() {
   const [RelativePatientList, setRelativePatientList] = useState();
   const [ArrivalPatientList, setArrivalPatientList] = useState();
 
+  const [name, setName] = useState();
+  const [priority, setPriority] = useState();
+
   const getManchesterOrderList = async () => {
     let patientList = null;
     await api
@@ -23,7 +26,6 @@ export default function App() {
       .catch((error) => {
         console.log(error)
       });
-    
   };
 
   // const getRelativeOrderList = async () => {
@@ -52,17 +54,35 @@ export default function App() {
   //   setArrivalPatientList(patientList);
   // };
 
-  const getData = async() => {
-    getManchesterOrderList();
+  const sendNewPatient = async () => {
+    let register;
+    var data = JSON.stringify({
+      nome: name,
+      manchester_priority: parseInt(priority),
+    });
+    await api
+      .post("/register-patient", data)
+      .then((result) => {
+        console.log(result);
+        register = result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        register = {};
+      });
+  };
+
+  const getData = async () => {
+    setManchesterPatientList(getManchesterOrderList());
     // setRelativePatientList(getRelativeOrderList());
     // setArrivalPatientList(getArrivalOrderList());
-  }
+  };
 
   useEffect(() => {
     if (isLoading === true) {
-      getData()
-      if(ManchesterPatientList){
-        setIsLoading(false)
+      getData();
+      if (ManchesterPatientList) {
+        setIsLoading(false);
       }
     }
   });
@@ -75,7 +95,10 @@ export default function App() {
         <>
           <div
             className="App"
-            style={{ background: "linear-gradient(45deg, rgba(254,203,125,1) 0%, rgba(255,244,171,1) 23%, rgba(255,193,153,1) 100%)" }}
+            style={{
+              background:
+                "linear-gradient(45deg, rgba(254,203,125,1) 0%, rgba(255,244,171,1) 23%, rgba(255,193,153,1) 100%)",
+            }}
           >
             <div className="Header-Container">
               <header className="App-header">
@@ -93,16 +116,32 @@ export default function App() {
                 <form>
                   <label>
                     Nome:
-                    <input type="text" name="name" />
+                    <input
+                      type="text"
+                      name="name"
+                      onChange={(patient_name) => {
+                        setName(patient_name.target.value);
+                      }}
+                    />
                   </label>
                 </form>
                 <form>
                   <label>
                     Prioridade:
-                    <input type="text" name="name" />
+                    <input
+                      type="text"
+                      name="priority"
+                      onChange={(patient_priority) => {
+                        setPriority(patient_priority.target.value);
+                      }}
+                    />
                   </label>
                 </form>
-                <input type="submit" value="Enviar" />
+                <input
+                  type="submit"
+                  value="Enviar"
+                  onClick={() => sendNewPatient()}
+                />
               </div>
             </div>
           </div>
