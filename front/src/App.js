@@ -53,7 +53,7 @@ export default function App() {
   // };
 
   const getData = async() => {
-    setManchesterPatientList(getManchesterOrderList());
+    getManchesterOrderList();
     // setRelativePatientList(getRelativeOrderList());
     // setArrivalPatientList(getArrivalOrderList());
   }
@@ -86,7 +86,7 @@ export default function App() {
 
             <div className="App-container">
               <div className="List-Patients">
-                
+                {JSON.stringify(ManchesterPatientList)}
               </div>
 
               <div className="Add-Patients">
