@@ -56,10 +56,10 @@ export default function App() {
 
   const sendNewPatient = async () => {
     let register;
-    var data = JSON.stringify({
+    var data = {
       nome: name,
       manchester_priority: parseInt(priority),
-    });
+    };
     await api
       .post("/register-patient", data)
       .then((result) => {

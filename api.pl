@@ -33,12 +33,20 @@ handle_request_default(_Request) :-
     cors_enable,
     reply_json_dict(Response).
 
+
 % POST Request
 handle_patient_registration(Request) :-
-    http_read_json_dict(Request, Query),
+    option(method(options), Request), !,
+      cors_enable(Request,
+                  [ methods([get,post,delete,options])]),
+    format('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Origin~n'),
+    cors_enable,
+    format('~n~n')
+    
+    ; http_read_json_dict(Request, Query),
     insert_patient_to_queue(Query),
     update_relative_priority(UpdateStatus),
-    cors_enable(_Request,[methods([get,post,delete])]),
+    cors_enable(Request,[methods([get,post,delete])]),
     format('Access-Control-Allow-Credentials:true'),
     format('~n'),
     cors_enable,
@@ -87,3 +95,10 @@ server(Port) :-
 
 % :- set_setting(http:cors, ['http://localhost:3000\n']).
 :- set_setting(http:cors, ['http://localhost:3000\n']).
+
+:- multifile http_json/1.
+
+http_json:json_type('application/x-javascript').
+http_json:json_type('text/javascript').
+http_json:json_type('a/b').
+http_json:json_type('text/x-json').
