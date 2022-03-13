@@ -4,28 +4,30 @@
 
 % Facts -> syntoms and urgency
 
-category(hemorrhage, red).
-category(convulsion, red).
-category(heartAttack, red).
-category(irresponsiveChild, red).
+category(hemorrhage_severe, 1).
+category(convulsion, 1).
+category(heart_attack, 1).
+category(chest_pain, 1).
+category(irresponsive_child, 1).
+category(ineffective_breathing, 1).
 
-category(intensePain, orange).
-category(feverishChild, orange).
-category(unconscious, orange).
-category(fever, orange).
+category(intense_pain, 2).
+category(feverish_child, 2).
+category(unconscious, 2).
 
-category(moderatePain, yellow).
-category(vomit, yellow).
-category(moderateFever, yellow).
+category(moderate_pain, 3).
+category(panic_crises, 3).
+category(hypertension, 3).
 
-category(recentProblem, green).
-category(respiratoryInfection, green).
+category(pain, 4).
+category(respiratory_infection, 4).
+category(vomit, 4).
+category(flue, 4).
 
-
+category(recent_problem, 5).
 
 % Triage questions
-
-getIdade :- 
+getAge :- 
     write('Type the age of patient: '),
     read(Idade),
     assert(idade(Idade)).
@@ -53,12 +55,7 @@ isVomiting :-
 isPregnant :- 
     write('Is the patient pregnant? (yes/no): '),
     read(Pregnant),
-    assert(pregnite(Pregnant)).
-
-getPressure :- 
-    write('Type the pressure of the patient: '),
-    read(Pressure),
-    assert(pressure(Pressure)).
+    assert(pregnant(Pregnant)).
 
 hasChestPain :- 
     write('Is the patient with chest pain? (yes/no): '),
@@ -66,13 +63,9 @@ hasChestPain :-
     assert(chestPain(ChestPain)).
 
 
-% Rules to age
-
-isChild:- idade(Idade), Idade < 5,!.
-isElderly :- idade(Idade), Idade > 65, !.
 
 
-    
+
 
 
 
