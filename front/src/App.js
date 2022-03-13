@@ -6,6 +6,7 @@ import "./App.css";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isRequestingData, setIsRequestingData] = useState(true);
   const [ManchesterPatientList, setManchesterPatientList] = useState([]);
   const [RelativePatientList, setRelativePatientList] = useState();
   const [ArrivalPatientList, setArrivalPatientList] = useState();
@@ -83,16 +84,27 @@ export default function App() {
       });
   };
 
+  async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+
   const getData = async () => {
-    setManchesterPatientList(getManchesterOrderList());
-    setRelativePatientList(getRelativeOrderList());
-    setArrivalPatientList(getArrivalOrderList());
+    getManchesterOrderList();
+    await delay(500);
+    getRelativeOrderList();
+    await delay(1000);
+    getArrivalOrderList();
+    await delay(1500);
   };
 
   useEffect(() => {
     if (isLoading === true) {
-      getData();
-      if (ManchesterPatientList) {
+      console.log('Loading data.')
+      if (isRequestingData === true){
+        setIsRequestingData(false);
+        getData();        
+      }
+      if (ManchesterPatientList && RelativePatientList && ArrivalPatientList) {
         setIsLoading(false);
       }
     }
