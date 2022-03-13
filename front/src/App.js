@@ -8,7 +8,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [ManchesterPatientList, setManchesterPatientList] = useState([]);
   const [RelativePatientList, setRelativePatientList] = useState();
-  // const [ArrivalPatientList, setArrivalPatientList] = useState();
+  const [ArrivalPatientList, setArrivalPatientList] = useState();
 
   const [name, setName] = useState();
   const [priority, setPriority] = useState();
@@ -17,6 +17,9 @@ export default function App() {
 
   const filterPatientResult = (result) => {
     let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
+
+    // TO-DO: transformar cada "arrival_time" em Date
+  
     return JSON.parse(result.data.replace(regex, ''));
   }
 
@@ -28,9 +31,6 @@ export default function App() {
         console.log('deu certo dessa vez')
         patientList = filterPatientResult(result)
         console.log(patientList.queue)
-
-        // TO-DO: transformar cada "arrival_time" em Date
-
         setManchesterPatientList(patientList.queue)
       })
       .catch((error) => {
@@ -52,18 +52,18 @@ export default function App() {
     return patientList;
   };
 
-  // const getArrivalOrderList = async () => {
-  //   let patientList = null;
-  //   await api
-  //     .get("/get-patients/arrival-order")
-  //     .then((result) => {
-  //       patientList = result.data;
-  //     })
-  //     .catch((error) => {
-  //       patientList = {};
-  //     });
-  //   setArrivalPatientList(patientList);
-  // };
+  const getArrivalOrderList = async () => {
+    let patientList = null;
+    await api
+      .get("/get-patients/arrival-order")
+      .then((result) => {
+        patientList = filterPatientResult(result)
+        setArrivalPatientList(patientList.queue);
+      })
+      .catch((error) => {
+        patientList = {};
+      });
+  };
 
   const sendNewPatient = async () => {
     let register;
@@ -86,7 +86,7 @@ export default function App() {
   const getData = async () => {
     setManchesterPatientList(getManchesterOrderList());
     setRelativePatientList(getRelativeOrderList());
-    // setArrivalPatientList(getArrivalOrderList());
+    setArrivalPatientList(getArrivalOrderList());
   };
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function App() {
                       <h2>Fila de atendimento de pacientes</h2>
                       <div>
                         <h4>Por ordem de chegada</h4>
-                        {/* <Table /> */}
+                        <Table list={ArrivalPatientList} colNames={colNames}/>
                       </div>
                       <div>
                         <h4>Por prioridade (protocolo Manchester)</h4>
