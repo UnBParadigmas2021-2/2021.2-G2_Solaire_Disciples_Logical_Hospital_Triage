@@ -1,16 +1,19 @@
 import React, { lazy, useEffect, useContext, useState } from "react";
 import api from "./services/api";
+import Table from "./components/Table/Table";
 import logo from "./logo.svg";
 import "./App.css";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [ManchesterPatientList, setManchesterPatientList] = useState();
-  const [RelativePatientList, setRelativePatientList] = useState();
-  const [ArrivalPatientList, setArrivalPatientList] = useState();
+  const [ManchesterPatientList, setManchesterPatientList] = useState([]);
+  // const [RelativePatientList, setRelativePatientList] = useState();
+  // const [ArrivalPatientList, setArrivalPatientList] = useState();
 
   const [name, setName] = useState();
   const [priority, setPriority] = useState();
+
+  const colNames = ["Hora da chegada", "Prioridade Manchester", "Nome", "Prioridade relativa"];
 
   const getManchesterOrderList = async () => {
     let patientList = null;
@@ -21,7 +24,7 @@ export default function App() {
         let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
         patientList = JSON.parse(result.data.replace(regex, ''))
         console.log(patientList)
-        setManchesterPatientList(patientList)
+        setManchesterPatientList(patientList.queue)
       })
       .catch((error) => {
         console.log(error)
@@ -143,6 +146,23 @@ export default function App() {
                   onClick={() => sendNewPatient()}
                 />
               </div>
+
+              <div className="Add-Patients">
+                      <h2>Fila de atendimento de pacientes</h2>
+                      <div>
+                        <h4>Por ordem de chegada</h4>
+                        {/* <Table /> */}
+                      </div>
+                      <div>
+                        <h4>Por prioridade (protocolo Manchester)</h4>
+                        <Table list={ManchesterPatientList} colNames={colNames} />
+                      </div>
+                      <div>
+                        <h4>Por prioridade relativa</h4>
+                        {/* <Table /> */}
+                      </div>
+              </div>
+
             </div>
           </div>
         </>
