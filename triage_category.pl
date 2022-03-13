@@ -79,14 +79,31 @@ getBloodPressure :-
 
 getOxygenLevel :- 
     write('Type the oxygen level of the patient: '),
-    read(OxygenLevel[0]),
-    assert(oxygenLevel(OxygenLevel[0]))
-    write('Oxygen level: '),
-    read(OxygenLevel[1]),
-    assert(oxygenLevel(OxygenLevel[1]))
+    read(OxygenLevel),
+    assert(oxygenLevel(OxygenLevel)).
 
 
 
+% Rules to handle triage category
+is_child:- idade(Idade), Idade < 5,!.
+is_elderly :- idade(Idade), Idade > 60, !.
+is_pregnant :- pregnant(Pregnant), Pregnant = yes, assert(pregnant(yes)), !.
+has_chest_pain :- chestPain(ChestPain), ChestPain = yes, assert(chestPain(yes)), !.
+has_diabetes :- diabetes(Diabetes), Diabetes = yes, assert(diabetes(yes)), !.
+
+is_pain_high :- painScale(PainScale), PainScale > 7, !.
+
+% Rules to check vital signs
+are_vital_signs_normal :-
+    temperature(Temperature),
+    bloodPressure(BloodPressure),
+    oxygenLevel(OxygenLevel),
+    Temperature =< 38,
+    Temperature >= 36,
+    BloodPressure >= 95,
+    BloodPressure =< 130,
+    OxygenLevel > 89,
+    !.
 
 
 
