@@ -62,9 +62,28 @@ hasChestPain :-
     read(ChestPain),
     assert(chestPain(ChestPain)).
 
+hasDiabetes :- 
+    write('Is the patient has diabetes? (yes/no): '),
+    read(Diabetes),
+    assert(diabetes(Diabetes)).
 
+getTemperature :-
+    write('Type the temperature of the patient: '),
+    read(Temperature),
+    assert(temperature(Temperature)).
 
+getBloodPressure :-
+    write('Type the blood pressure of the patient: '),
+    read(BloodPressure),
+    assert(bloodPressure(BloodPressure)).
 
+getOxygenLevel :- 
+    write('Type the oxygen level of the patient: '),
+    read(OxygenLevel[0]),
+    assert(oxygenLevel(OxygenLevel[0]))
+    write('Oxygen level: '),
+    read(OxygenLevel[1]),
+    assert(oxygenLevel(OxygenLevel[1]))
 
 
 
