@@ -37,35 +37,59 @@ getPainScale :-
     read(PainScale),
     assert(painScale(PainScale)).
 
-isBleeding :- 
-    write('Is the patient bleeding? (yes/no): '),
-    read(Bleeding),
-    assert(bleeding(Bleeding)).
+isBleeding(X) :-
+    (
+        X = yes, 
+        assert(bleeding(true))
+    ;
+        X = no, 
+        assert(bleeding(false))
+    ).
+    
 
-isFeverish :- 
-    write('Is the patient feverish? (yes/no): '),
-    read(Feverish),
-    assert(feverish(Feverish)).
+isFeverish(X) :-
+    (
+        X = yes, 
+        assert(feverish(true))
+    ;
+        X = no, 
+        assert(feverish(false))
+    ).
 
-isVomiting :- 
-    write('Is the patient vomiting? (yes/no): '),
-    read(Vomit),
-    assert(vomit(Vomit)).
+isVomiting(X) :-
+    (
+        X = yes, 
+        assert(vomiting(true))
+    ;
+        X = no, 
+        assert(vomiting(false))
+    ).
 
-isPregnant :- 
-    write('Is the patient pregnant? (yes/no): '),
-    read(Pregnant),
-    assert(pregnant(Pregnant)).
+isPregnant(X) :-
+    (
+        X = yes,
+        assert(pregnant(true))
+    ;
+        assert(pregnant(false))
+    ).
 
-hasChestPain :- 
-    write('Is the patient with chest pain? (yes/no): '),
-    read(ChestPain),
-    assert(chestPain(ChestPain)).
+hasChestPain(X) :-
+    (
+        X = yes,
+        assert(chestPain(true))
+    ;
+        false
+    ).
 
-hasDiabetes :- 
-    write('Is the patient has diabetes? (yes/no): '),
-    read(Diabetes),
-    assert(diabetes(Diabetes)).
+hasDiabetes(X) :-
+    (
+        X = yes,
+        assert(diabetes(true))
+    ;
+        false
+    ).
+
+
 
 getTemperature :-
     write('Type the temperature of the patient: '),
@@ -83,15 +107,13 @@ getOxygenLevel :-
     assert(oxygenLevel(OxygenLevel)).
 
 
-
+    
 % Rules to handle triage category
 is_child:- idade(Idade), Idade < 5,!.
 is_elderly :- idade(Idade), Idade > 60, !.
-is_pregnant :- pregnant(Pregnant), Pregnant = yes, assert(pregnant(yes)), !.
-has_chest_pain :- chestPain(ChestPain), ChestPain = yes, assert(chestPain(yes)), !.
-has_diabetes :- diabetes(Diabetes), Diabetes = yes, assert(diabetes(yes)), !.
-
 is_pain_high :- painScale(PainScale), PainScale > 7, !.
+
+
 
 % Rules to check vital signs
 are_vital_signs_normal :-
@@ -105,9 +127,31 @@ are_vital_signs_normal :-
     OxygenLevel > 89,
     !.
 
+% Add combinations of syntoms that represent the Manchester Priority
 
+priority1(ManchesterPriority) :-
+    is_child; is_elderly; isPregnant(yes),
+    is_pain_high; hasChestPain(yes); isBleeding(yes),
+    ManchesterPriority is 1.
 
+priority2(ManchesterPriority) :-
+    is_elderly; is_child,
+    isDiabetic(yes), isBleeding(yes),
+    ManchesterPriority is 2.
 
+priority3(ManchesterPriority) :-
+    is_child; is_elderly, isPregnant(yes),
+    not(are_vital_signs_normal), isFeverish(yes),
+    ManchesterPriority is 3.
+
+priority4(ManchesterPriority) :-
+    is_child; is_elderly,
+    are_vital_signs_normal, isVomiting(yes),
+    ManchesterPriority is 4.
+
+priority5(ManchesterPriority) :-
+    isVomiting(yes); isFeverish(yes),
+    ManchesterPriority is 5.
 
 
 
