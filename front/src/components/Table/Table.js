@@ -2,7 +2,7 @@ import React from "react";
 
 const Table = ({list, colNames, width="auto", height="auto"}) => {
    return (
-      <div>
+      <div style={ {boxShadow: '3px 6px 3px #ccc'}}>
          {list.length > 0 && (
             <table cellSpacing="0" style={{width: width, height: height, padding: '5px 10px'}}>
                <thead>
