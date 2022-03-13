@@ -15,15 +15,22 @@ export default function App() {
 
   const colNames = ["Hora da chegada", "Prioridade Manchester", "Nome", "Prioridade relativa"];
 
+  const filterPatientResult = (result) => {
+    let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
+    return JSON.parse(result.data.replace(regex, ''));
+  }
+
   const getManchesterOrderList = async () => {
     let patientList = null;
     await api
       .get("/get-patients/manchester-order")
       .then((result) => {
         console.log('deu certo dessa vez')
-        let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
-        patientList = JSON.parse(result.data.replace(regex, ''))
-        console.log(patientList)
+        patientList = filterPatientResult(result)
+        console.log(patientList.queue)
+
+        // TO-DO: transformar cada "arrival_time" em Date
+
         setManchesterPatientList(patientList.queue)
       })
       .catch((error) => {
