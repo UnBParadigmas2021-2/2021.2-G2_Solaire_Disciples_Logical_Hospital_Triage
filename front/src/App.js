@@ -7,7 +7,7 @@ import "./App.css";
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [ManchesterPatientList, setManchesterPatientList] = useState([]);
-  // const [RelativePatientList, setRelativePatientList] = useState();
+  const [RelativePatientList, setRelativePatientList] = useState();
   // const [ArrivalPatientList, setArrivalPatientList] = useState();
 
   const [name, setName] = useState();
@@ -38,18 +38,19 @@ export default function App() {
       });
   };
 
-  // const getRelativeOrderList = async () => {
-  //   let patientList = null;
-  //   await api
-  //     .get("/get-patients/relative-order")
-  //     .then((result) => {
-  //       patientList = result.data;
-  //     })
-  //     .catch((error) => {
-  //       patientList = {};
-  //     });
-  //   return patientList;
-  // };
+  const getRelativeOrderList = async () => {
+    let patientList = null;
+    await api
+      .get("/get-patients/relative-order")
+      .then((result) => {
+        patientList = filterPatientResult(result)
+        setRelativePatientList(patientList.queue)
+      })
+      .catch((error) => {
+        patientList = {};
+      });
+    return patientList;
+  };
 
   // const getArrivalOrderList = async () => {
   //   let patientList = null;
@@ -84,7 +85,7 @@ export default function App() {
 
   const getData = async () => {
     setManchesterPatientList(getManchesterOrderList());
-    // setRelativePatientList(getRelativeOrderList());
+    setRelativePatientList(getRelativeOrderList());
     // setArrivalPatientList(getArrivalOrderList());
   };
 
@@ -166,7 +167,7 @@ export default function App() {
                       </div>
                       <div>
                         <h4>Por prioridade relativa</h4>
-                        {/* <Table /> */}
+                        <Table list={RelativePatientList} colNames={colNames} />
                       </div>
               </div>
 
