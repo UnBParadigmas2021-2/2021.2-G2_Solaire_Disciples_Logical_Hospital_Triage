@@ -1,8 +1,13 @@
 import React, { lazy, useEffect, useContext, useState } from "react";
 import api from "./services/api";
-import Table from "./components/Table/Table";
+import PatientsTable from "./components/Table/Table";
 import logo from "./logo.svg";
 import "./App.css";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +19,23 @@ export default function App() {
   const [name, setName] = useState();
   const [priority, setPriority] = useState();
 
+  const [viewPatientList, setViewPatientList] = useState('');
+  const [open, setOpen] = useState();
+
   const colNames = ["Hora da chegada", "Prioridade Manchester", "Nome", "Prioridade relativa"];
+
+  const handleViewChange = (event) => {
+    console.log(event.target.value)
+    setViewPatientList(event.target.value);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
 
   const filterPatientResult = (result) => {
     let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
@@ -132,7 +153,37 @@ export default function App() {
 
             <div className="App-container">
               <div className="List-Patients">
-                {JSON.stringify(ManchesterPatientList)}
+                <div>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-controlled-open-select-label">Order By</InputLabel>
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={open}
+                      onClose={handleClose}
+                      onOpen={handleOpen}
+                      value={viewPatientList}
+                      label="ViewList"
+                      onChange={handleViewChange}
+                    >
+                      <MenuItem value={1}>Pure Manchester Protocol</MenuItem>
+                      <MenuItem value={2}>Relative Algorithm (Manchester Protocol + Arrival Time)</MenuItem>
+                      <MenuItem value={3}>Arrival Order</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+
+                <div>
+                  {viewPatientList == 1 &&
+                    <PatientsTable list={ManchesterPatientList} colNames={colNames} />
+                  }
+                  {viewPatientList == 2 &&
+                    <PatientsTable list={RelativePatientList} colNames={colNames} />
+                  }
+                  {viewPatientList == 3 &&
+                    <PatientsTable list={ArrivalPatientList} colNames={colNames} />
+                  }
+                </div>
               </div>
 
               <div className="Add-Patients">
@@ -165,22 +216,6 @@ export default function App() {
                   value="Enviar"
                   onClick={() => sendNewPatient()}
                 />
-              </div>
-
-              <div className="Add-Patients">
-                      <h2>Fila de atendimento de pacientes</h2>
-                      <div>
-                        <h4>Por ordem de chegada</h4>
-                        <Table list={ArrivalPatientList} colNames={colNames}/>
-                      </div>
-                      <div>
-                        <h4>Por prioridade (protocolo Manchester)</h4>
-                        <Table list={ManchesterPatientList} colNames={colNames} />
-                      </div>
-                      <div>
-                        <h4>Por prioridade relativa</h4>
-                        <Table list={RelativePatientList} colNames={colNames} />
-                      </div>
               </div>
 
             </div>

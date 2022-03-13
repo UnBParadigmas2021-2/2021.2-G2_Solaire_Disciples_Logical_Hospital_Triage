@@ -77,7 +77,7 @@ update_item_priority([], UpdatedList) :-
     told.
 
 update_item_priority([H|T], UpdatedList) :-
-    RelativePriority is H.relative_priority - (H.manchester_priority * 0.1),
+    RelativePriority is H.relative_priority - ((1/H.manchester_priority) * 0.1),
     UpdatedValue = H.put(relative_priority, RelativePriority),
     append(UpdatedList, [UpdatedValue], NewUpdatedList),
     update_item_priority(T, NewUpdatedList).
