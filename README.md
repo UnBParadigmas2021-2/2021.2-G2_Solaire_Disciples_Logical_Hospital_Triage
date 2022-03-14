@@ -145,6 +145,7 @@ Refere-se ao [Prtocolo de Manchester](http://redec.com.br/blog/classif_risco/imp
 
 Esse algoritmo de ordenação leva em conta uma prioridade relativa da qual considera-se inicialmente a prioridade dada pelo Protocolo de Manchester e essa prioridade é modificada a cada pessoa nova que entra na lista de espera, de forma que a ordem de chegada seja levada em consideração e a prioridade do paciente que está esperando há muito tempo seja alterada de forma que esse paciente não fique esperando sua vez eternamente caso sempre seja chamado alguém com a prioridade maior que a sua.
 
+Quanto menor o número, maior sua prioridade.
 
 ## Vídeo
 Adicione 1 ou mais vídeos com a execução do projeto.
@@ -153,4 +154,13 @@ Adicione 1 ou mais vídeos com a execução do projeto.
 Quaisquer outras informações sobre seu projeto podem ser descritas a seguir.
 
 ## Fontes
-Caso utilize materiais de terceiros, referencie-os adequadamente.
+
+Estudo sobre protocolo de manchester:
+[EscolaDeSaudePublica](https://github.com/EscolaDeSaudePublica/devLab/issues/7)
+[RedeC](http://redec.com.br/blog/classif_risco/importancia-do-protocolo-de-manchester/)
+
+Estudo sobre servidor HTTP em Prolog:
+[Anniepoo:swiplwebtut](https://github.com/Anniepoo/swiplwebtut/blob/master/web.adoc)
+
+Solução temporária de problema com CORS:
+[alfilatov](https://alfilatov.com/posts/run-chrome-without-cors/)
