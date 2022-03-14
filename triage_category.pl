@@ -66,7 +66,7 @@ isLowPain(PainLevel):-
     PainLevel =:= 1 -> true.
 
 isMediumPain(PainLevel):-
-    PainLevel =:= 1 -> true.
+    PainLevel =:= 2 -> true.
 
 isHighPain(PainLevel):-
     PainLevel =:= 3 -> true.
