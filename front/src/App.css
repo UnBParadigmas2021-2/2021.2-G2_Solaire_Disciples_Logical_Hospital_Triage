@@ -26,6 +26,11 @@
   
 }
 
+.Patient-card{
+  display: flex;
+  justify-content: space-between;
+}
+
 .App-container {
   display: flex;
   padding: 5px;
