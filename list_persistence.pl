@@ -6,7 +6,8 @@
 
 :- [triage_category].
 
-insert_patient_to_queue(_{nome:N,
+insert_patient_to_queue(_{
+    nome:N,
     bad_breathing:BadBreathing,
     bleeding_level:BleedingLevel,
     shock_state: ShockState,

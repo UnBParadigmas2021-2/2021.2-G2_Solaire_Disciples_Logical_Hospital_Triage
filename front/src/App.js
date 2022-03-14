@@ -22,10 +22,25 @@ export default function App() {
   const [ArrivalPatientList, setArrivalPatientList] = useState();
 
   const [name, setName] = useState();
-  const [priority, setPriority] = useState();
+  const [age, setAge] = useState();
+  const [bad_breathing, setBad_breathing] = useState(false); //bool ok
+  const [bleeding_level, setBleeding_level] = useState();
+  const [shock_state, setShock_state] = useState(false); //bool
+  const [is_convulsioning, setIs_convulsioning] = useState(false); //bool
+  const [pain_level, setPain_level] = useState();
+  const [unconscious, setUnconscious] = useState(false); //bool
+  const [body_temperature, setBody_temperature] = useState();
+  const [unconscious_history, setUnconscious_history] = useState(false); //bool
+  const [minor_recent_problem, setMinor_recent_problem] = useState(false); //bool
 
   const [viewPatientList, setViewPatientList] = useState(1);
-  const [open, setOpen] = useState();
+  const [openFilterList, setOpenFilterList] = useState();
+  const [openBadBreathing, setOpenBadBreathing] = useState(false);
+  const [openShockState, setOpenShockState] = useState(false);
+  const [openIsConvulsioning, setOpenIsConvulsioning] = useState(false);
+  const [openUnconscious, setOpenUnconscious] = useState(false);
+  const [openUnconsciousHistory, setOpenUnconsciousHistory] = useState(false);
+  const [openMinorRecentProblem, setOpenMinorRecentProblem] = useState(false);
 
   const colNames = [
     "Hora da chegada",
@@ -39,12 +54,12 @@ export default function App() {
     setViewPatientList(event.target.value);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseFilterList = () => {
+    setOpenFilterList(false);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenFilterList = () => {
+    setOpenFilterList(true);
   };
 
   const filterPatientResult = (result) => {
@@ -100,7 +115,16 @@ export default function App() {
   const sendNewPatient = async () => {
     var data = {
       nome: name,
-      manchester_priority: parseInt(priority),
+      age: parseInt(age),
+      bad_breathing: bad_breathing,
+      bleeding_level: parseInt(bleeding_level),
+      shock_state: shock_state,
+      is_convulsioning: is_convulsioning,
+      pain_level: parseInt(pain_level),
+      unconscious: unconscious,
+      body_temperature: parseInt(body_temperature),
+      unconscious_history: unconscious_history,
+      minor_recent_problem: minor_recent_problem,
     };
     await api
       .post("/register-patient", data)
@@ -185,14 +209,164 @@ export default function App() {
                 </form>
                 <form>
                   <label>
-                    Prioridade:
+                    Idade:
                     <input
                       type="text"
-                      name="priority"
-                      onChange={(patient_priority) => {
-                        setPriority(patient_priority.target.value);
+                      name="age"
+                      onChange={(age) => {
+                        setAge(age.target.value);
                       }}
                     />
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Respiração inadequada e/ou comprometimento das vias aéreas:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openBadBreathing}
+                      onClose={() => setOpenBadBreathing(false)}
+                      onOpen={() => setOpenBadBreathing(true)}
+                      value={bad_breathing}
+                      label="Problemas Respiratórios"
+                      onChange={(event) => setBad_breathing(event.target.value)}
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Nível de Hemorragia:
+                    <input
+                      type="text"
+                      name="bleeding_level"
+                      onChange={(bleeding_level) => {
+                        setBleeding_level(bleeding_level.target.value);
+                      }}
+                    />
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Estado de Choque:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openShockState}
+                      onClose={() => setOpenShockState(false)}
+                      onOpen={() => setOpenShockState(true)}
+                      value={shock_state}
+                      label="Estado de Choque"
+                      onChange={(event) => setShock_state(event.target.value)}
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Está convulsionando:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openIsConvulsioning}
+                      onClose={() => setOpenIsConvulsioning(false)}
+                      onOpen={() => setOpenIsConvulsioning(true)}
+                      value={is_convulsioning}
+                      label="Convulsionando"
+                      onChange={(event) =>
+                        setIs_convulsioning(event.target.value)
+                      }
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Nível de Dor (1 a 3):
+                    <input
+                      type="text"
+                      name="pain_level"
+                      onChange={(pain_level) => {
+                        setPain_level(pain_level.target.value);
+                      }}
+                    />
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Inconsciente:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openUnconscious}
+                      onClose={() => setOpenUnconscious(false)}
+                      onOpen={() => setOpenUnconscious(true)}
+                      value={unconscious}
+                      label="Inconsciente"
+                      onChange={(event) => setUnconscious(event.target.value)}
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Temperatura Corporal:
+                    <input
+                      type="text"
+                      name="body_temperature"
+                      onChange={(body_temperature) => {
+                        setBody_temperature(body_temperature.target.value);
+                      }}
+                    />
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Histórico de Inconsciência:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openUnconsciousHistory}
+                      onClose={() => setOpenUnconsciousHistory(false)}
+                      onOpen={() => setOpenUnconsciousHistory(true)}
+                      value={unconscious_history}
+                      label="Inconsciente"
+                      onChange={(event) =>
+                        setUnconscious_history(event.target.value)
+                      }
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
+                  </label>
+                </form>
+                <form>
+                  <label>
+                    Problema Recente:
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={openMinorRecentProblem}
+                      onClose={() => setOpenMinorRecentProblem(false)}
+                      onOpen={() => setOpenMinorRecentProblem(true)}
+                      value={minor_recent_problem}
+                      label="Problema Recente"
+                      onChange={(event) =>
+                        setMinor_recent_problem(event.target.value)
+                      }
+                    >
+                      <MenuItem value={true}>Sim</MenuItem>
+                      <MenuItem value={false}>Não</MenuItem>
+                    </Select>
                   </label>
                 </form>
                 <input
@@ -201,7 +375,7 @@ export default function App() {
                   onClick={() => sendNewPatient()}
                 />
               </div>
-              
+
               <div className="List-Patients">
                 <Card sx={{ m: 1, maxWidth: 700 }}>
                 <CardContent>
@@ -212,9 +386,9 @@ export default function App() {
                     <Select
                       labelId="demo-controlled-open-select-label"
                       id="demo-controlled-open-select"
-                      open={open}
-                      onClose={handleClose}
-                      onOpen={handleOpen}
+                      open={openFilterList}
+                      onClose={handleCloseFilterList}
+                      onOpen={handleOpenFilterList}
                       value={viewPatientList}
                       label="ViewList"
                       onChange={handleViewChange}
@@ -234,13 +408,13 @@ export default function App() {
                       colNames={colNames}
                     />
                   )}
-                  {viewPatientList == 2 && (
+                  {viewPatientList === 2 && (
                     <PatientsTable
                       list={RelativePatientList}
                       colNames={colNames}
                     />
                   )}
-                  {viewPatientList == 3 && (
+                  {viewPatientList === 3 && (
                     <PatientsTable
                       list={ArrivalPatientList}
                       colNames={colNames}
