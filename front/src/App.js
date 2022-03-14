@@ -126,7 +126,7 @@ export default function App() {
             <div className="Header-Container">
               <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <p>Hospital Warrior of Sunlight</p>
+                <p class='darksouls'>Hospital Warrior of Sunlight</p>
               </header>
             </div>
 

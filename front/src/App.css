@@ -13,6 +13,12 @@
   }
 }
 
+.darksouls {
+  font-family: 'OptimusPrinceps';
+  src: local('OptimusPrinceps') url(fonts/OptimusPrinceps.ttf) ;
+  color:black;
+}
+
 .App-header {
   display: flex;
   flex-direction: row;
