@@ -25,6 +25,7 @@ hello_world(_{message: N}) :-
 %.
 
 % GET Request
+% Apenas um request que não é utilizado, serve apenas para checar se o servidor esta online
 handle_request_default(_Request) :-
     hello_world(Response), % logic to be processed.
     cors_enable(_Request,[methods([get,post,delete])]),
@@ -34,7 +35,12 @@ handle_request_default(_Request) :-
     reply_json_dict(Response).
 
 
-% POST Request
+% POST/OPTIONS Request
+% Recebe a requisicao de cadastro de paciente na lista de espera
+% Eh recebido um dicionario que eh processado pela funcao insert_patient_to_queue
+% Em seguida eh atualizado as prioridades relativas de todos da lista
+% Utilizando a funcao update_relative_priority
+% No corpo da requisicao eh enviado tambem os dados de CORS
 handle_patient_registration(Request) :-
     option(method(options), Request), !,
       cors_enable(Request,
@@ -53,6 +59,8 @@ handle_patient_registration(Request) :-
     reply_json_dict(_{status: "Ok"}).
     
 % GET Request
+% Recebe a requisicao GET e em seguida ordena a lista de espera de acordo com a ordem de chegada
+% E em seguida responde com um JSON da lista atualizada
 handle_list_sort_by_arrival(_Request) :-
     sort_patients_by(arrival_time),
     get_patient_list(PatientsList),
@@ -63,6 +71,8 @@ handle_list_sort_by_arrival(_Request) :-
     reply_json_dict(PatientsList).
 
 % GET Request
+% Recebe a requisicao GET e em seguida ordena a lista de espera de acordo com a prioridade do protocolo de manchester
+% E em seguida responde com um JSON da lista atualizada
 handle_list_sort_by_manchester(_Request) :-
     sort_patients_by(manchester_priority),
     get_patient_list(PatientsList),
@@ -72,6 +82,9 @@ handle_list_sort_by_manchester(_Request) :-
     cors_enable,
     reply_json_dict(PatientsList).
 
+% GET Request
+% Recebe a requisicao GET e em seguida ordena a lista de espera de acordo com a prioridade relativa
+% E em seguida responde com um JSON da lista atualizada
 handle_list_sort_by_relative_priority(_Request) :-
     sort_patients_by(relative_priority),
     get_patient_list(PatientsList),
@@ -82,6 +95,8 @@ handle_list_sort_by_relative_priority(_Request) :-
     reply_json_dict(PatientsList).
 
 % GET Request
+% Recebe a requisicao GET e em seguida retira o proximo paciente a ser chamado da lista de espera
+% E em seguida retorna um JSON com os dados do paciente chamado
 handle_call_patient(_Request) :-
     call_next_patient(Patient),
     cors_enable(_Request,[methods([get,post,delete])]),
@@ -90,12 +105,16 @@ handle_call_patient(_Request) :-
     cors_enable,
     reply_json_dict(Patient).
 
+
+% Define a porta a ser utilizada do servidor HTTP
 server(Port) :-
     http_server(http_dispatch, [port(Port)]).
 
-% :- set_setting(http:cors, ['http://localhost:3000\n']).
+% Define o header Allow Origin para ser o localhost:3000 para fins de nao ter problemas com CORS
 :- set_setting(http:cors, ['http://localhost:3000\n']).
 
+
+% Define mais tipos de aceitacao para reconhecimento de arquivos JSON
 :- multifile http_json/1.
 
 http_json:json_type('application/x-javascript').
