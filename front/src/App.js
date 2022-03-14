@@ -1,13 +1,18 @@
 import React, { lazy, useEffect, useContext, useState } from "react";
+import Paper from '@mui/material/Paper';
 import api from "./services/api";
 import PatientsTable from "./components/Table/Table";
-import logo from "./logo.svg";
+import logo from "./images/Sunlight_Medal.png";
 import "./App.css";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import AppBar from '@mui/material/AppBar';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -158,25 +163,35 @@ export default function App() {
     }
   });
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main:'#9e4a00'
+      },
+      
+    },
+  });
+
   return (
     <>
       {isLoading ? (
         <div>Carregando...</div>
       ) : (
         <>
+        <ThemeProvider theme={theme}>
           <div
             className="App"
             style={{
               background:
-                "linear-gradient(45deg, rgba(254,203,125,1) 0%, rgba(255,244,171,1) 23%, rgba(255,193,153,1) 100%)",
+                "linear-gradient(72deg, rgba(214,138,108,1) 0%, rgba(255,184,0,1) 44%, rgba(244,174,54,1) 100%)",
             }}
           >
-            <div className="Header-Container">
+            <AppBar position="static">
               <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <p>Hospital Warrior of Sunlight</p>
+                <p class='darksouls'>Hospital Warrior of Sunlight</p>
               </header>
-            </div>
+            </AppBar>
 
             <div className="App-container">
               <div className="Add-Patients">
@@ -362,7 +377,8 @@ export default function App() {
               </div>
 
               <div className="List-Patients">
-                <div>
+                <Card sx={{ m: 1, maxWidth: 700 }}>
+                <CardContent>
                   <FormControl sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="demo-controlled-open-select-label">
                       Order By
@@ -384,9 +400,9 @@ export default function App() {
                       <MenuItem value={3}>Arrival Order</MenuItem>
                     </Select>
                   </FormControl>
-                </div>
-                <div>
-                  {viewPatientList === 1 && (
+                </CardContent>
+                <CardContent>
+                  {viewPatientList == 1 && (
                     <PatientsTable
                       list={ManchesterPatientList}
                       colNames={colNames}
@@ -404,10 +420,12 @@ export default function App() {
                       colNames={colNames}
                     />
                   )}
-                </div>
+                </CardContent>
+                </Card>
               </div>
             </div>
           </div>
+          </ThemeProvider>
         </>
       )}
     </>
