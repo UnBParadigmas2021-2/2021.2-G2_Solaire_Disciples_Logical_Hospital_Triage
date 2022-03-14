@@ -10,9 +10,9 @@ import Paper from '@mui/material/Paper';
 const PatientsTable = ({list, width="auto", height="auto"}) => {
    
    return (
-      <TableContainer component={Paper}>
+      <TableContainer sx={{ maxWidth: 500}} component={Paper}>
          {list.length > 0 && (
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <Table aria-label="customized table">
                <TableHead>
                   <TableRow>
                      <TableCell>Hora da chegada</TableCell>

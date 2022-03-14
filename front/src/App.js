@@ -3,11 +3,11 @@ import api from "./services/api";
 import PatientsTable from "./components/Table/Table";
 import logo from "./logo.svg";
 import "./App.css";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,41 +22,46 @@ export default function App() {
   const [viewPatientList, setViewPatientList] = useState(1);
   const [open, setOpen] = useState();
 
-  const colNames = ["Hora da chegada", "Prioridade Manchester", "Nome", "Prioridade relativa"];
+  const colNames = [
+    "Hora da chegada",
+    "Prioridade Manchester",
+    "Nome",
+    "Prioridade relativa",
+  ];
 
   const handleViewChange = (event) => {
-    console.log(event.target.value)
+    console.log(event.target.value);
     setViewPatientList(event.target.value);
   };
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   const handleOpen = () => {
     setOpen(true);
-  }
+  };
 
   const filterPatientResult = (result) => {
-    let regex = new RegExp('.*charset=UTF-8\n\n', 'gmius')
+    let regex = new RegExp(".*charset=UTF-8\n\n", "gmius");
 
     // TO-DO: transformar cada "arrival_time" em Date
-  
-    return JSON.parse(result.data.replace(regex, ''));
-  }
+
+    return JSON.parse(result.data.replace(regex, ""));
+  };
 
   const getManchesterOrderList = async () => {
     let patientList = null;
     await api
       .get("/get-patients/manchester-order")
       .then((result) => {
-        console.log('deu certo dessa vez')
-        patientList = filterPatientResult(result)
-        console.log(patientList.queue)
-        setManchesterPatientList(patientList.queue)
+        console.log("deu certo dessa vez");
+        patientList = filterPatientResult(result);
+        console.log(patientList.queue);
+        setManchesterPatientList(patientList.queue);
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
   };
 
@@ -65,8 +70,8 @@ export default function App() {
     await api
       .get("/get-patients/relative-order")
       .then((result) => {
-        patientList = filterPatientResult(result)
-        setRelativePatientList(patientList.queue)
+        patientList = filterPatientResult(result);
+        setRelativePatientList(patientList.queue);
       })
       .catch((error) => {
         patientList = {};
@@ -79,7 +84,7 @@ export default function App() {
     await api
       .get("/get-patients/arrival-order")
       .then((result) => {
-        patientList = filterPatientResult(result)
+        patientList = filterPatientResult(result);
         setArrivalPatientList(patientList.queue);
       })
       .catch((error) => {
@@ -95,7 +100,7 @@ export default function App() {
     await api
       .post("/register-patient", data)
       .then((result) => {
-        getData()
+        getData();
         console.log(result);
       })
       .catch((error) => {
@@ -104,7 +109,7 @@ export default function App() {
   };
 
   async function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 
   const getData = async () => {
@@ -118,10 +123,10 @@ export default function App() {
 
   useEffect(() => {
     if (isLoading === true) {
-      console.log('Loading data.')
-      if (isRequestingData === true){
+      console.log("Loading data.");
+      if (isRequestingData === true) {
         setIsRequestingData(false);
-        getData();        
+        getData();
       }
       if (ManchesterPatientList && RelativePatientList && ArrivalPatientList) {
         setIsLoading(false);
@@ -150,40 +155,6 @@ export default function App() {
             </div>
 
             <div className="App-container">
-              <div className="List-Patients">
-                <div>
-                  <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="demo-controlled-open-select-label">Order By</InputLabel>
-                    <Select
-                      labelId="demo-controlled-open-select-label"
-                      id="demo-controlled-open-select"
-                      open={open}
-                      onClose={handleClose}
-                      onOpen={handleOpen}
-                      value={viewPatientList}
-                      label="ViewList"
-                      onChange={handleViewChange}
-                    >
-                      <MenuItem value={1}>Pure Manchester Protocol</MenuItem>
-                      <MenuItem value={2}>Relative Algorithm (Manchester Protocol + Arrival Time)</MenuItem>
-                      <MenuItem value={3}>Arrival Order</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-
-                <div>
-                  {viewPatientList == 1 &&
-                    <PatientsTable list={ManchesterPatientList} colNames={colNames} />
-                  }
-                  {viewPatientList == 2 &&
-                    <PatientsTable list={RelativePatientList} colNames={colNames} />
-                  }
-                  {viewPatientList == 3 &&
-                    <PatientsTable list={ArrivalPatientList} colNames={colNames} />
-                  }
-                </div>
-              </div>
-
               <div className="Add-Patients">
                 <form>
                   <label>
@@ -215,7 +186,52 @@ export default function App() {
                   onClick={() => sendNewPatient()}
                 />
               </div>
-
+              
+              <div className="List-Patients">
+                <div>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-controlled-open-select-label">
+                      Order By
+                    </InputLabel>
+                    <Select
+                      labelId="demo-controlled-open-select-label"
+                      id="demo-controlled-open-select"
+                      open={open}
+                      onClose={handleClose}
+                      onOpen={handleOpen}
+                      value={viewPatientList}
+                      label="ViewList"
+                      onChange={handleViewChange}
+                    >
+                      <MenuItem value={1}>Pure Manchester Protocol</MenuItem>
+                      <MenuItem value={2}>
+                        Relative Algorithm (Manchester Protocol + Arrival Time)
+                      </MenuItem>
+                      <MenuItem value={3}>Arrival Order</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <div>
+                  {viewPatientList == 1 && (
+                    <PatientsTable
+                      list={ManchesterPatientList}
+                      colNames={colNames}
+                    />
+                  )}
+                  {viewPatientList == 2 && (
+                    <PatientsTable
+                      list={RelativePatientList}
+                      colNames={colNames}
+                    />
+                  )}
+                  {viewPatientList == 3 && (
+                    <PatientsTable
+                      list={ArrivalPatientList}
+                      colNames={colNames}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </>

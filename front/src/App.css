@@ -21,7 +21,14 @@
 }
 
 .App-container {
+  display: flex;
+  padding: 5px;
   flex-direction: row;
+}
+
+.App-container > div {
+  flex: 1 1 auto;
+  margin: 5px;  /* and that, will result in a 10px gap */
 }
 
 .Add-Patients {
