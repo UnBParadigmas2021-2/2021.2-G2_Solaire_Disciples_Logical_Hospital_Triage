@@ -157,13 +157,29 @@ priority5(ManchesterPriority) :-
 % Function to call priority1, priority2, priority3, priority4, priority5 and return priority
 
 triage_category(ManchesterPriority) :-
-    (
-        priority1(ManchesterPriority) ->
-            write('Priority 1'),
+        priority1(ManchesterPriority);
         priority2(ManchesterPriority);
         priority3(ManchesterPriority);
         priority4(ManchesterPriority);
         priority5(ManchesterPriority);
-    ),
+    
     write('The patient has a priority of: '),
     write(ManchesterPriority).
+
+get_manchester_priority(
+    BadBreathing,
+    BleedingLevel,
+    ShockState,
+    Convulsioning,
+    NotRespondingChild,
+    PainLevel,
+    Unconscious,
+    BodyTemperature,
+    UnconsciousHistory,
+    Adult,
+    MinorRecentProblem,
+    ManchesterPriority
+) :-
+    ManchesterPriority is 5.
+
+        
