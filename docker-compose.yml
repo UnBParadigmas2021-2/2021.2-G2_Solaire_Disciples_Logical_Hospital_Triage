@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  front-end:
+    image: logical-hospital-triage
+    container_name: logical-hospital-triage
+    build:
+      context: .
+      dockerfile: front-docker
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front/:/front
+    entrypoint: "tail -f /dev/null"

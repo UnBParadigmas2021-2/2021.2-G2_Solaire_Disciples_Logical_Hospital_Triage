@@ -1,0 +1,49 @@
+.App-logo {
+  height: 20vmin;
+  pointer-events: none;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: row;
+  font-size: calc(10px + 5vmin);
+  color: white;
+}
+
+.App-container {
+  flex-direction: row;
+}
+
+.Add-Patients {
+  margin-top: 40px;
+  margin: 40px;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.Add-Patients > form {
+  margin: 20px;
+}
+
+.Add-Patients > input {
+  margin: 20px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
