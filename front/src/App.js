@@ -113,6 +113,13 @@ export default function App() {
   };
 
   const callNextPatient = async () => {
+    if (viewPatientList === 1){
+      await getManchesterOrderList();
+    }else if (viewPatientList === 2){
+      await getRelativeOrderList();
+    }else{
+      await getArrivalOrderList();
+    }
     await api
       .get("/call-patient")
       .then((result) => {
