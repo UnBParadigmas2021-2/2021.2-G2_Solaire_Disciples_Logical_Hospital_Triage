@@ -131,7 +131,7 @@ are_vital_signs_normal :-
 
 priority1(ManchesterPriority) :-
     is_child; is_elderly; isPregnant(yes),
-    is_pain_high; hasChestPain(yes); isBleeding(yes),
+    is_pain_high, hasChestPain(yes), isBleeding(yes),
     ManchesterPriority is 1.
 
 priority2(ManchesterPriority) :-
@@ -140,7 +140,7 @@ priority2(ManchesterPriority) :-
     ManchesterPriority is 2.
 
 priority3(ManchesterPriority) :-
-    is_child; is_elderly, isPregnant(yes),
+    is_child; is_elderly; isPregnant(yes),
     not(are_vital_signs_normal), isFeverish(yes),
     ManchesterPriority is 3.
 
@@ -150,10 +150,20 @@ priority4(ManchesterPriority) :-
     ManchesterPriority is 4.
 
 priority5(ManchesterPriority) :-
-    isVomiting(yes); isFeverish(yes),
+    isVomiting(yes); isFeverish(no),
     ManchesterPriority is 5.
 
 
+% Function to call priority1, priority2, priority3, priority4, priority5 and return priority
 
-
-
+triage_category(ManchesterPriority) :-
+    (
+        priority1(ManchesterPriority) ->
+            write('Priority 1'),
+        priority2(ManchesterPriority);
+        priority3(ManchesterPriority);
+        priority4(ManchesterPriority);
+        priority5(ManchesterPriority);
+    ),
+    write('The patient has a priority of: '),
+    write(ManchesterPriority).
