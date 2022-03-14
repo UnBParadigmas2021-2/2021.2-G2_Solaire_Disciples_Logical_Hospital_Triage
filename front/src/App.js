@@ -60,6 +60,15 @@ export default function App() {
     "Prioridade relativa",
   ];
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#9e4a00",
+      },
+    },
+  });
+
+  // Handlers de objetos HTML responsivos
   const handleViewChange = (event) => {
     console.log(event.target.value);
     setViewPatientList(event.target.value);
@@ -73,22 +82,28 @@ export default function App() {
     setOpenFilterList(true);
   };
 
+  const handleClickOpenCall = () => {
+    setOpenCall(true);
+  };
+
+  const handleCloseCall = () => {
+    setOpenCall(false);
+  };
+
+  // REGEX para achar a lista de pacientes na string do body do response
   const filterPatientResult = (result) => {
     let regex = new RegExp(".*charset=UTF-8\n\n", "gmius");
-
-    // TO-DO: transformar cada "arrival_time" em Date
-
     return JSON.parse(result.data.replace(regex, ""));
   };
 
+  // GET Request
+  // Consegue a lista de pacientes por ordem de prioridade manchester
   const getManchesterOrderList = async () => {
     let patientList = null;
     await api
       .get("/get-patients/manchester-order")
       .then((result) => {
-        console.log("deu certo dessa vez");
         patientList = filterPatientResult(result);
-        console.log(patientList.queue);
         setManchesterPatientList(patientList.queue);
       })
       .catch((error) => {
@@ -96,6 +111,8 @@ export default function App() {
       });
   };
 
+  // GET Request
+  // Consegue a lista de pacientes por ordem de prioridade relativa
   const getRelativeOrderList = async () => {
     let patientList = null;
     await api
@@ -110,6 +127,8 @@ export default function App() {
     return patientList;
   };
 
+  // GET Request
+  // Consegue a lista de pacientes por ordem de chegada
   const getArrivalOrderList = async () => {
     let patientList = null;
     await api
@@ -123,6 +142,9 @@ export default function App() {
       });
   };
 
+  // GET Request
+  // Envia uma chamada para chamar (remover da lista) o paciente do topo da lista
+  // Leva em consideração qual o tipo de filtragem da lista escolhido 
   const callNextPatient = async () => {
     if (viewPatientList === 1){
       await getManchesterOrderList();
@@ -142,6 +164,8 @@ export default function App() {
       .catch((error) => {});
   };
 
+  // POST request
+  // Envia um paciente e seus dados para ser filtrado e inserido na fila
   const sendNewPatient = async () => {
     var data = {
       nome: name,
@@ -171,6 +195,7 @@ export default function App() {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
 
+  //Todas os GET Requests das listas de pacientes são listadas nessa função
   const getData = async () => {
     getManchesterOrderList();
     await delay(500);
@@ -192,24 +217,6 @@ export default function App() {
       }
     }
   });
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#9e4a00",
-      },
-    },
-  });
-
-  const handleClickOpenCall = () => {
-    setOpenCall(true);
-  };
-
-  const handleCloseCall = () => {
-    setOpenCall(false);
-  };
-  
-  
 
   return (
     <>
