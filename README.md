@@ -18,10 +18,11 @@
 
 ## Sobre 
 O projeto contempla a implementação de um sistema de triagem de pacientes considerando um contexto hospitalar.
+O projeto se divide em duas partes, uma delas sendo o servidor HTTP feito utilizando a linguagem de programação PROLOG, e a parte do front-end produzida utilizando Javascript, HTML e CSS, junto ao framework ReactJS.
 
-A motivação para esse projeto surgiu porque um dos membros ficou bastante doente e teve que passar a frequentar o hospital. Em uma dessas visitas, notou a existência de um processo de triagem de pacientes seguido da adição deles a uma fila de prioridades de atendimento. Imediatamente observou-se que isso poderia ser implementado seguindo o paradigma lógico.
+A motivação para esse projeto surgiu pois um dos membros do grupo ficou bastante doente e teve que passar a frequentar o hospital. Em uma dessas visitas, notou a existência de um processo de triagem de pacientes seguido da adição deles a uma fila de prioridades de atendimento; Imediatamente observou-se que isso poderia ser implementado seguindo o paradigma lógico.
 
-O projeto contempla desde a triagem do paciente até a adição dele na fila de prioridades. A triagem é feita ao preencher um formulário de anamnese na página inicial com informações sobre o estado de saúde do paciente. Em seguida, nossos algoritmos são capazes de identificar qual a classificação daquele paciente segundo o [Protocolo de Manchester](https://passevip.com.br/pulseiras-protocolo-de-manchester/) e, então, adicioná-lo na fila.
+O projeto contempla desde a triagem do paciente até a adição dele na fila de prioridades e a chamada do mesmo. A triagem é feita ao preencher um formulário de anamnese na página inicial com informações sobre o estado de saúde do paciente. Em seguida, nossos algoritmos são capazes de identificar qual a classificação daquele paciente segundo o [Protocolo de Manchester](https://passevip.com.br/pulseiras-protocolo-de-manchester/) e, então, adicioná-lo na fila.
 
 A fila de prioridade de atendimento também é mostrada na página inicial. Foram implementadas 3 estratégias de prioridade para a fila: por ordem de chegada; por protocolo manchester; e por prioridade relativa (leva em conta a ordem de chegada e a classificação segundo o protocolo Manchester).
 
@@ -57,13 +58,13 @@ Recomenda-se baixar de [SWI-Prolog](https://www.swi-prolog.org/download/stable).
 ## Instalação Linux: 
 
 Garantir que as dependências estejam instaladas e atualizadas:
-```bash
+```
 % sudo apt-get install software-properties-common
 % sudo apt-add-repository ppa:swi-prolog/stable
 % sudo apt-get update
 ```
 Comando de instalação do prolog:
-```bash
+```
 % sudo apt-get install swi-prolog
 ```
 
