@@ -194,6 +194,10 @@ export default function App() {
             </AppBar>
 
             <div className="App-container">
+              
+              <Card sx={{ m: 1, maxWidth: 700 }}>
+              <CardContent>
+              <h1>Cadastrar Paciente</h1>
               <div className="Add-Patients">
                 <form>
                   <label>
@@ -374,11 +378,16 @@ export default function App() {
                   value="Enviar"
                   onClick={() => sendNewPatient()}
                 />
+
               </div>
+              </CardContent>
+              </Card>
+              
 
               <div className="List-Patients">
                 <Card sx={{ m: 1, maxWidth: 700 }}>
                 <CardContent>
+                  <h1>Lista de Pacientes Esperando</h1>
                   <FormControl sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel id="demo-controlled-open-select-label">
                       Order By
