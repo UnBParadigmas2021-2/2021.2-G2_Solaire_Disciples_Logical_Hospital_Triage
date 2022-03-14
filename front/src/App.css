@@ -50,7 +50,12 @@
 }
 
 .Add-Patients > form {
-  margin: 20px;
+  margin: 40px;
+}
+
+.Add-Patients > form > label {
+  display: flex;
+  justify-content: space-between;
 }
 
 .Add-Patients > input {
