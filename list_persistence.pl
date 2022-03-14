@@ -4,13 +4,39 @@
 :- use_module(library(lists)).
 :- use_module(library(dicts)).
 
-insert_patient_to_queue(_{nome:N, manchester_priority: M}) :-
+:- [triage_category].
+
+insert_patient_to_queue(_{nome:N,
+    bad_breathing:BadBreathing,
+    bleeding_level:BleedingLevel,
+    shock_state: ShockState,
+    is_convulsioning: Convulsioning,
+    pain_level:PainLevel,
+    unconscious:Unconscious,
+    body_temperature:BodyTemperature,
+    unconscious_history: UnconsciousHistory,
+    age: Age,
+    minor_recent_problem: MinorRecentProblem
+    }) :-
     FPath = 'patients.json',
     open(FPath, read, StreamIn),
     json_read_dict(StreamIn, DictIn),
     close(StreamIn),
     now(T),
-    append(DictIn.queue, [_{nome:N, manchester_priority: M, arrival_time:T, relative_priority: M}], PatientList),
+    get_manchester_priority(
+         Age,
+         BadBreathing,
+         BleedingLevel,
+         ShockState,
+         Convulsioning,
+         PainLevel,
+         Unconscious,
+         BodyTemperature,
+         UnconsciousHistory,
+         MinorRecentProblem,
+         ManchesterPriority
+    ),
+    append(DictIn.queue, [_{nome:N, manchester_priority: ManchesterPriority, arrival_time:T, relative_priority: ManchesterPriority}], PatientList),
     DictOut = DictIn.put(queue, PatientList),
     tell(FPath),
     json_write_dict(current_output, DictOut, [null('')]),
