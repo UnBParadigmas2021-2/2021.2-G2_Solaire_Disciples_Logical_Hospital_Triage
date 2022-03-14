@@ -47,37 +47,105 @@ Fila segundo a prioridade relativa:
 
 ![Fila Relativa](imgs/relativa.png)
 
-## Instalação 
-**Linguagens**: Prolog (back), Javascript (front)<br>
-**Tecnologias**: Yarn, Docker, Docker-compose, Make<br>
+# Instalação 
+**Linguagens**: Prolog, Javascript, HTML, CSS<br>
+**Tecnologias**: [ReactJS](https://pt-br.reactjs.org/), [Material Ui](https://mui.com/pt/), Yarn, Docker, Docker-compose, Make<br>
 
-## Uso 
+É necessário instalar o SWI-Prolog para a execução correta.
+Recomenda-se baixar de [SWI-Prolog](https://www.swi-prolog.org/download/stable).
 
-1. Para iniciar o backend:
+## Instalação Linux: 
 
-`$ prolog -f main.pl`
+Garantir que as dependências estejam instaladas e atualizadas:
+```bash
+% sudo apt-get install software-properties-common
+% sudo apt-add-repository ppa:swi-prolog/stable
+% sudo apt-get update
+```
+Comando de instalação do prolog:
+```bash
+% sudo apt-get install swi-prolog
+```
+
+#### Front-End
+
+A instalação das dependências do front-end ocorrem dentro de um container docker gerenciado por um arquivo `Makefile`.
+Executando o comando `make run` na pasta raíz do projeto já faz com que o front-end seja instalado e executado em sistemas operacionais Linux.
+
+# Uso 
+
+O programa é compostos de duas partes:
+  - Servidor HTTP -> Prolog
+  - Front End -> ReactJS
+
+
+## 1. Para iniciar o servidor HTTP:
+
+```
+$ prolog -f main.pl
+```
+
+OBS: O Servidor HTTP Utiliza a porta `8000/tcp`.
 
 > No MacOS:
 
-`$ swipl -f main.pl`
+```
+$ swipl -f main.pl
+```
 
-2. Para iniciar o frontend:
+## 2. Para iniciar o Front-End:
 
-`$ make`
+```
+$ make run
+```
+  Obs: Para parar a execução do front-end completamente, usa se o comando `$ make stop`
 
 
-3. Atenção: O servidor http em prolog é simples, mas está com problema de CORS. Para ignorar isso, é necessário que [o seu navegador seja inicializado com opções de segurança desativadas](https://alfilatov.com/posts/run-chrome-without-cors/). Exemplo:
+3. Atenção: O servidor executado pelo PROLOG está com problema de CORS devido à práticas de desenvolvimento web que não são mais utilizadas. Para ignorar isso, é necessário que [o seu navegador seja inicializado com opções de segurança desativadas](https://alfilatov.com/posts/run-chrome-without-cors/). Exemplo:
 
-Linux:
-`$ google-chrome --disable-web-security --user-data-dir=~/chromeTemp`
+#### Linux:
 
-Windows10:
-`"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp`
+Utilizando Google Chrome:
+```
+$ google-chrome --disable-web-security --user-data-dir=~/chromeTemp
+```
 
-MacOS:
-`open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security`
+#### Windows10:
 
-4. Acesse o navegador web de sua preferência no endereço `127.0.0.1:3000`.
+```
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+```
+
+#### MacOS:
+
+```
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
+```
+
+### 4. Acesse o navegador web de sua preferência no endereço `127.0.0.1:3000` ou `localhost:3000`.
+
+## 5 Utilização do sistema:
+
+Após o sistema ter sido inicializado corretamente, é necessário adicionar pacientes na fila de espera do hospital.
+Para isto, basta preencher corretamente o formulário com os dados do paciente e clicar no botão de adicionar na lista de espera.
+
+Após você adicionar pessoas na lista de espera, nota-se a lista ao lado do formulário, composta dos dados preenchidos junto à dados de decisão de prioridade.
+
+Desses dados vale a pena a explicação de dois dados que não são tão intuitivos, são estes: `Manchester Priority` e `Relative Priority`
+
+#### Manchester Priority
+
+Refere-se ao [Prtocolo de Manchester](http://redec.com.br/blog/classif_risco/importancia-do-protocolo-de-manchester/), que é um método de triagem utilizado em hospitais do qual a prioridade inicial da triagem do paciente é definida por características básicas de fácil aferição, que após avaliadas, dão uma pulseira pro paciente com uma cor correspondente à sua prioridade.
+
+> ![image](https://user-images.githubusercontent.com/40258400/158267199-61e94fc4-8103-4abd-89e7-da1f831c9022.png)
+
+> Imagem retirada do site `http://redec.com.br/blog/classif_risco/importancia-do-protocolo-de-manchester/`.
+
+#### Relative Priority
+
+Esse algoritmo de ordenação leva em conta uma prioridade relativa da qual considera-se inicialmente a prioridade dada pelo Protocolo de Manchester e essa prioridade é modificada a cada pessoa nova que entra na lista de espera, de forma que a ordem de chegada seja levada em consideração e a prioridade do paciente que está esperando há muito tempo seja alterada de forma que esse paciente não fique esperando sua vez eternamente caso sempre seja chamado alguém com a prioridade maior que a sua.
+
+
 ## Vídeo
 Adicione 1 ou mais vídeos com a execução do projeto.
 
