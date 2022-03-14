@@ -183,3 +183,23 @@ get_manchester_priority(
     ManchesterPriority is 5.
 
         
+isTemperatureHigh(BodyTemperature) :-
+    BodyTemperature >= 38 -> true.
+
+isTemperatureLow(BodyTemperature) :-
+    35 >= BodyTemperature -> true.
+
+isChild(Age):-
+    12 >= Age -> true.
+
+isOxigenLow(OxigenLevel):-
+    89 >= OxigenLevel -> true. 
+
+isNoPain(PainLevel):-
+    PainLevel =:= 1 -> true.
+
+isLowPain(PainLevel):-
+    PainLevel =:= 2 -> true.
+
+isHighPain(PainLevel):-
+    PainLevel =:= 3 -> true.
