@@ -152,8 +152,21 @@ Quanto menor o número, maior sua prioridade.
 Adicione 1 ou mais vídeos com a execução do projeto.
 
 ## Outros 
-##### Problemas Técnicos:
+#### Problemas Técnicos:
+
+##### CORS
+
 O grupo não encontrou problemas na implementação básica de um servidor HTTP utilizando PROLOG. O problema ocorre quando os navegadores modernos têm implementados nativamente um protocolo CORS, que é referente a web-segurança, que impõe restrições quanto a requisições web que partem da mesma origem, e para passar por tais restrições é necessário que as requisições contenham os dados requisitados pelo protocolo CORS em seus headers. O problema é que as bibliotecas nativas do SWI-Prolog não conseguem formatar os headers de forma que os navegadores modernos interpretam; O prolog utiliza de uma técnica obsoleta que parte de escrever os headers no corpo da mensagem retornada pelo servidor, e isso não é recomendado e nem aceito atualmente pelos navegadores web. Para burlar esse protocolo, o grupo decidiu iniciar o navegador web desativando os procedimentos de segurança, fazendo assim que o protocolo CORS não seja checado.
+
+##### PROLOG com JSON
+
+Inicialmente o grupo decidiu dividir o projeto em pequenas tarefas para que depois haja a integração de tudo. Porém um dos grupos separados tiveram muita dificuldade com a implementação de soluções que realizam a leitura de arquivo `.json` e isso fez com que o projeto ficasse atrasado; O grupo conseguiu contornar essa situação fazendo pair programming com todos os integrantes do grupo para esclarecer e ajudar com conceitos de prolog.
+
+#### Implementações Futuras:
+
+O grupo pensando em implementações futuras, decidiu que seria interessante implementar a triagem considerando pessoas que devem ter uma atenção em questão de espera, sendo estes: Idosos, diabéticos, grávidas, pessoas que chegam de ambulância e entre outros.
+
+Outra implementação interessante seria de considerar consultórios com médicos, de forma que a chamada de pacientes indique o consultório que o paciente deverá seguir.
 
 ## Fontes
 
