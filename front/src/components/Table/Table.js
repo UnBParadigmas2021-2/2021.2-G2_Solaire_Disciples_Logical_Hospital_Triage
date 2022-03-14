@@ -1,34 +1,41 @@
 import React from "react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-const Table = ({list, colNames, width="auto", height="auto"}) => {
+const PatientsTable = ({list, width="auto", height="auto"}) => {
+   
    return (
-      <div style={ {boxShadow: '3px 6px 3px #ccc'}}>
+      <TableContainer sx={{ maxWidth: 500}} component={Paper}>
          {list.length > 0 && (
-            <table cellSpacing="0" style={{width: width, height: height, padding: '5px 10px'}}>
-               <thead>
-                  <tr>
-                     {colNames.map((headerItem, index) => (
-                        <th key={index}>
-                           {headerItem.toUpperCase()}
-                        </th>
-                     ))}
-                  </tr>
-               </thead>
-               <tbody>
+            <Table aria-label="customized table">
+               <TableHead>
+                  <TableRow>
+                     <TableCell>Hora da chegada</TableCell>
+                     <TableCell>Nome</TableCell>
+                     <TableCell>Prioridade Manchester</TableCell>
+                     <TableCell>Prioridade Relativa</TableCell>
+                  </TableRow>
+               </TableHead>
+               <TableBody>
                   {Object.values(list).map((obj, index) => (
-                     <tr key={index}>
-                        {Object.values(obj).map((value, index2) => (
-                           <td key={index2}>
-                              {value}
-                           </td>
-                        ))}
-                     </tr>
+                     <TableRow key={index}>
+                           <TableCell align='right'>{new Date(obj.arrival_time * 1000).toLocaleString('pt-BR')}</TableCell>
+                           <TableCell align='right'>{obj.nome}</TableCell>
+                           <TableCell align='right'>{obj.manchester_priority}</TableCell>
+                           <TableCell align='right'>{obj.relative_priority}</TableCell>
+                              
+                     </TableRow>
                   ))}
-               </tbody>
-            </table>
+               </TableBody>
+            </Table>
          )}
-      </div>
+      </TableContainer>
    )
 }
 
-export default Table;
+export default PatientsTable;
