@@ -19,7 +19,7 @@ export default function App() {
   const [name, setName] = useState();
   const [priority, setPriority] = useState();
 
-  const [viewPatientList, setViewPatientList] = useState('');
+  const [viewPatientList, setViewPatientList] = useState(1);
   const [open, setOpen] = useState();
 
   const colNames = ["Hora da chegada", "Prioridade Manchester", "Nome", "Prioridade relativa"];
@@ -88,7 +88,6 @@ export default function App() {
   };
 
   const sendNewPatient = async () => {
-    let register;
     var data = {
       nome: name,
       manchester_priority: parseInt(priority),
@@ -96,12 +95,11 @@ export default function App() {
     await api
       .post("/register-patient", data)
       .then((result) => {
+        getData()
         console.log(result);
-        register = result.data;
       })
       .catch((error) => {
         console.log(error);
-        register = {};
       });
   };
 
