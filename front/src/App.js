@@ -13,6 +13,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AppBar from "@mui/material/AppBar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +39,8 @@ export default function App() {
   const [unconscious_history, setUnconscious_history] = useState(false); //bool
   const [minor_recent_problem, setMinor_recent_problem] = useState(false); //bool
 
+  const [openCall, setOpenCall] = React.useState(false);
+  const [calledPatient, setCalledPatient] = useState();
   const [viewPatientList, setViewPatientList] = useState(1);
   const [openFilterList, setOpenFilterList] = useState();
   const [openBadBreathing, setOpenBadBreathing] = useState(false);
@@ -123,6 +131,9 @@ export default function App() {
     await api
       .get("/call-patient")
       .then((result) => {
+        let parsed_data = filterPatientResult(result);
+        setCalledPatient(parsed_data);
+        setOpenCall(true);
         getData();
       })
       .catch((error) => {});
@@ -187,6 +198,16 @@ export default function App() {
     },
   });
 
+  const handleClickOpenCall = () => {
+    setOpenCall(true);
+  };
+
+  const handleCloseCall = () => {
+    setOpenCall(false);
+  };
+  
+  
+
   return (
     <>
       {isLoading ? (
@@ -207,6 +228,28 @@ export default function App() {
                   <p class="darksouls">Hospital Warrior of Sunlight</p>
                 </header>
               </AppBar>
+
+              <Dialog
+                open={openCall}
+                onClose={handleCloseCall}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Paciente chamado:
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Nome: {calledPatient.nome} <br/>
+                    Prioridade do Protocolo de Manchester: {calledPatient.manchester_priority} <br/>
+                    Prioridade Relativa: {calledPatient.relative_priority} <br/>
+                    Hora de chegada: {new Date(calledPatient.arrival_time * 1000).toLocaleString('pt-BR')}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseCall}>Okay</Button>
+                </DialogActions>
+              </Dialog>
 
               <div className="App-container">
                 <div className="Add-Patients">
