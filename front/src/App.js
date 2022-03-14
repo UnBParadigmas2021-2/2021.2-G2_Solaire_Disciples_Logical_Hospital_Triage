@@ -40,7 +40,7 @@ export default function App() {
   const [minor_recent_problem, setMinor_recent_problem] = useState(false); //bool
 
   const [openCall, setOpenCall] = React.useState(false);
-  const [calledPatient, setCalledPatient] = useState();
+  const [calledPatient, setCalledPatient] = useState(false);
   const [viewPatientList, setViewPatientList] = useState(1);
   const [openFilterList, setOpenFilterList] = useState();
   const [openBadBreathing, setOpenBadBreathing] = useState(false);
@@ -252,6 +252,9 @@ export default function App() {
               </Dialog>
 
               <div className="App-container">
+                <Card sx={{ m: 1, maxWidth: 700 }}>
+                <CardContent>
+                <h1>Cadastrar Paciente</h1>
                 <div className="Add-Patients">
                   <form>
                     <label>
@@ -436,9 +439,15 @@ export default function App() {
                     onClick={() => sendNewPatient()}
                   />
                 </div>
+                </CardContent>
+                </Card>
+              
+              
 
                 <div className="List-Patients">
                   <Card sx={{ m: 1, maxWidth: 700 }}>
+                  <CardContent><h1>Lista de Espera</h1></CardContent>
+                    
                     <CardContent className="Patient-card">
                       <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="demo-controlled-open-select-label">
