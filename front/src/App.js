@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import api from "./services/api";
 import PatientsTable from "./components/Table/Table";
@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -30,10 +31,10 @@ export default function App() {
   const [name, setName] = useState();
   const [age, setAge] = useState();
   const [bad_breathing, setBad_breathing] = useState(false); //bool ok
-  const [bleeding_level, setBleeding_level] = useState();
+  const [bleeding_level, setBleeding_level] = useState(0);
   const [shock_state, setShock_state] = useState(false); //bool
   const [is_convulsioning, setIs_convulsioning] = useState(false); //bool
-  const [pain_level, setPain_level] = useState();
+  const [pain_level, setPain_level] = useState(0);
   const [unconscious, setUnconscious] = useState(false); //bool
   const [body_temperature, setBody_temperature] = useState();
   const [unconscious_history, setUnconscious_history] = useState(false); //bool
@@ -44,8 +45,10 @@ export default function App() {
   const [viewPatientList, setViewPatientList] = useState(1);
   const [openFilterList, setOpenFilterList] = useState();
   const [openBadBreathing, setOpenBadBreathing] = useState(false);
+  const [openBleedingLevel, setOpenBleedingLevel] = useState(false);
   const [openShockState, setOpenShockState] = useState(false);
   const [openIsConvulsioning, setOpenIsConvulsioning] = useState(false);
+  const [openPain, setOpenPain] = useState(false);
   const [openUnconscious, setOpenUnconscious] = useState(false);
   const [openUnconsciousHistory, setOpenUnconsciousHistory] = useState(false);
   const [openMinorRecentProblem, setOpenMinorRecentProblem] = useState(false);
@@ -257,9 +260,9 @@ export default function App() {
                 <h1>Cadastrar Paciente</h1>
                 <div className="Add-Patients">
                   <form>
-                    <label>
+                    <label className="Patient-form">
                       Nome:
-                      <input
+                      <Input
                         type="text"
                         name="name"
                         onChange={(patient_name) => {
@@ -270,8 +273,8 @@ export default function App() {
                   </form>
                   <form>
                     <label>
-                      Idade:
-                      <input
+                      Idade (em anos):
+                      <Input
                         type="text"
                         name="age"
                         onChange={(age) => {
@@ -282,8 +285,7 @@ export default function App() {
                   </form>
                   <form>
                     <label>
-                      Respiração inadequada e/ou comprometimento das vias
-                      aéreas:
+                      Respiração inadequada e/ou comprometimento das vias aéreas:
                       <Select
                         labelId="demo-controlled-open-select-label"
                         id="demo-controlled-open-select"
@@ -304,13 +306,21 @@ export default function App() {
                   <form>
                     <label>
                       Nível de Hemorragia:
-                      <input
-                        type="text"
-                        name="bleeding_level"
-                        onChange={(bleeding_level) => {
-                          setBleeding_level(bleeding_level.target.value);
-                        }}
-                      />
+                      <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={openBleedingLevel}
+                        onClose={() => setOpenBleedingLevel(false)}
+                        onOpen={() => setOpenBleedingLevel(true)}
+                        value={bleeding_level}
+                        label="Nivel de Hemorragia"
+                        onChange={(event) => setBleeding_level(event.target.value)}
+                      >
+                        <MenuItem value={0}>Sem Hemorragia</MenuItem>
+                        <MenuItem value={1}>Hemorragia Pequena</MenuItem>
+                        <MenuItem value={2}>Hemorragia Moderada</MenuItem>
+                        <MenuItem value={3}>Hemorragia Severa</MenuItem>
+                      </Select>
                     </label>
                   </form>
                   <form>
@@ -354,13 +364,23 @@ export default function App() {
                   <form>
                     <label>
                       Nível de Dor (1 a 3):
-                      <input
-                        type="text"
-                        name="pain_level"
-                        onChange={(pain_level) => {
-                          setPain_level(pain_level.target.value);
-                        }}
-                      />
+                      <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={openPain}
+                        onClose={() => setOpenPain(false)}
+                        onOpen={() => setOpenPain(true)}
+                        value={pain_level}
+                        label="Nivel de Dor"
+                        onChange={(event) =>
+                          setPain_level(event.target.value)
+                        }
+                      >
+                        <MenuItem value={0}>Sem dor</MenuItem>
+                        <MenuItem value={1}>Dor Baixa</MenuItem>
+                        <MenuItem value={2}>Dor Moderada</MenuItem>
+                        <MenuItem value={3}>Dor Severa</MenuItem>
+                      </Select>
                     </label>
                   </form>
                   <form>
@@ -383,9 +403,9 @@ export default function App() {
                   </form>
                   <form>
                     <label>
-                      Temperatura Corporal:
-                      <input
-                        type="text"
+                      Temperatura Corporal (em graus celsius):
+                      <Input
+                        id="outlined-basic"
                         name="body_temperature"
                         onChange={(body_temperature) => {
                           setBody_temperature(body_temperature.target.value);
@@ -433,11 +453,12 @@ export default function App() {
                       </Select>
                     </label>
                   </form>
-                  <input
-                    type="submit"
-                    value="Enviar"
+                  <Button
+                    variant="contained"
                     onClick={() => sendNewPatient()}
-                  />
+                  >
+                  Enviar
+                  </Button>
                 </div>
                 </CardContent>
                 </Card>
@@ -473,14 +494,15 @@ export default function App() {
                           <MenuItem value={3}>Arrival Order</MenuItem>
                         </Select>
                       </FormControl>
-                      <input
-                        type="submit"
-                        value="Chamar próximo Paciente"
+                      <Button
+                        variant="contained"
                         onClick={() => callNextPatient()}
-                      />
+                      >
+                        Chamar próximo Paciente
+                      </Button>
                     </CardContent>
                     <CardContent>
-                      {viewPatientList == 1 && (
+                      {viewPatientList === 1 && (
                         <PatientsTable
                           list={ManchesterPatientList}
                           colNames={colNames}
