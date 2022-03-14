@@ -1,11 +1,5 @@
-% Logic to handle triage_category
 
-% Legend: 1 -> Red, 2 -> Orange, 3 -> Yellow, 4-> Green, 5-> Blue.
-
-% Facts -> syntoms and urgency
-
-% Add combinations of syntoms that represent the Manchester Priority
-
+% Recebe sintomas do paciente e retorna a prioridade de acordo com o protocolo de manchester
 get_manchester_priority(
     Age,
     BadBreathing,
@@ -19,64 +13,64 @@ get_manchester_priority(
     MinorRecentProblem,
     ManchesterPriority
 ) :-
-    !,  (BadBreathing 
-        ; extremeBleeding(BleedingLevel) 
-        ; ShockState
-        ; Convulsioning
-        ; (isChild(Age), Unconscious)) 
-        -> ManchesterPriority is 1
-    ;   (isHighPain(PainLevel)
-        ;highBleeding(BleedingLevel)
-        ;Unconscious
-        ; (isChild(Age), isTemperatureHigh(BodyTemperature))
-        ; isTemperatureLow(BodyTemperature)
-        ; isMediumPain(PainLevel))
-        -> ManchesterPriority is 2
-    ;   (lowBleeding(BleedingLevel)
-        ; UnconsciousHistory
-        ; isTemperatureHigh(BodyTemperature)) 
-        -> ManchesterPriority is 3
-    ;   (isLowPain(PainLevel)
-        ; isLowFeverish(BodyTemperature)
-        ; MinorRecentProblem)
-        -> ManchesterPriority is 4
-    ;   ManchesterPriority is 5.
+    !,  (BadBreathing % Respiracao obstruida/inadequada, comprometimento das vias aereas
+        ; extremeBleeding(BleedingLevel) % Hemorragia exanguinante
+        ; ShockState % Paciente em estado de choque
+        ; Convulsioning % Paciente esta convulcionando
+        ; (isChild(Age), Unconscious)) % O paciente eh uma crianca desacordada
+        -> ManchesterPriority is 1 % Caso algum desses sintomas seja verdade, a prioridade eh 1
+    ;   (isHighPain(PainLevel) % Dor intensa
+        ;highBleeding(BleedingLevel) % Hemorragia maior incontrolavel
+        ;Unconscious % Pessoa inconsciente
+        ; (isChild(Age), isTemperatureHigh(BodyTemperature)) % Paciente eh uma crianca em estado febril
+        ; isTemperatureLow(BodyTemperature) % Esfriamento/Hiportemia
+        ; isMediumPain(PainLevel)) % Dor moderada
+        -> ManchesterPriority is 2 % Caso algum desses sintomas seja verdade, a prioridade eh 2
+    ;   (lowBleeding(BleedingLevel) % Hemorragia menor incontrolavel
+        ; UnconsciousHistory % Paciente tem historico de inconsciencia recente
+        ; isTemperatureHigh(BodyTemperature)) % Paciente em estado febril
+        -> ManchesterPriority is 3 % Caso algum desses sintomas seja verdade, a prioridade eh 3
+    ;   (isLowPain(PainLevel) % Dor leve recente
+        ; isLowFeverish(BodyTemperature) % Febre baixa
+        ; MinorRecentProblem) % Problema recente
+        -> ManchesterPriority is 4 % Caso algum desses sintomas seja verdade, a prioridade eh 4
+    ;   ManchesterPriority is 5. % Caso nenhum desses sintomas que definam prioridade seja verdade, a prioridade eh 5
     
         
-isTemperatureHigh(BodyTemperature) :-
+isTemperatureHigh(BodyTemperature) :- % Caso a temperatura do paciente seja maior que 38 graus, ele esta em estado febril
     BodyTemperature > 38 -> true.
 
-isTemperatureLow(BodyTemperature) :-
+isTemperatureLow(BodyTemperature) :- % Caso a temperatura do paciente seja menor que 35 graus, ele esta em estado de esfriamento
     35 >= BodyTemperature -> true.
 
-isLowFeverish(BodyTemperature) :-
+isLowFeverish(BodyTemperature) :- % Caso a temperatura do paciente seja igual a 38 graus, ele esta em estado febril leve
     BodyTemperature =:= 38 -> true.
 
 
-isChild(Age):-
+isChild(Age):- % Caso o paciente tenha 12 anos ou menos, ele eh consideraco crianca
     12 >= Age -> true.
 
-isOxigenLow(OxigenLevel):-
+isOxigenLow(OxigenLevel):- % Nivel de oxigenacao do sangue menor que 89 eh menor do que o saudavel
     89 >= OxigenLevel -> true. 
 
-isNoPain(PainLevel):-
+isNoPain(PainLevel):- % Paciente nao esta sentindo dor
     PainLevel =:= 0 -> true.
 
-isLowPain(PainLevel):-
+isLowPain(PainLevel):- % Paciente esta sentindo pouca dor
     PainLevel =:= 1 -> true.
 
-isMediumPain(PainLevel):-
+isMediumPain(PainLevel):- % Paciente esta sentindo dor moderada
     PainLevel =:= 2 -> true.
 
-isHighPain(PainLevel):-
+isHighPain(PainLevel):- % Paciente esta sentindo dor intensa
     PainLevel =:= 3 -> true.
 
-extremeBleeding(BleedingLevel):-
+extremeBleeding(BleedingLevel):- % Paciente esta com hemorragia exanguinante
     BleedingLevel =:= 3 -> true.
 
-highBleeding(BleedingLevel):-
+highBleeding(BleedingLevel):- % Paciente esta com hemorragia maior incontrolavel
     BleedingLevel =:= 2 -> true.
 
-lowBleeding(BleedingLevel):-
+lowBleeding(BleedingLevel):- % Paciente esta com hemorragia menor incontrolavel
     BleedingLevel =:= 1 -> true.
 
