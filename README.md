@@ -149,7 +149,12 @@ Esse algoritmo de ordenação leva em conta uma prioridade relativa da qual cons
 Quanto menor o número, maior sua prioridade.
 
 ## Vídeo
-Adicione 1 ou mais vídeos com a execução do projeto.
+
+Video final: https://drive.google.com/file/d/1o5K-2IESf_2CHcfwVqoH2AyksDZlSQee/view?usp=sharing
+
+Video Backup : https://youtu.be/kRvE6bnJO7Q
+
+
 
 ## Outros 
 #### Problemas Técnicos:
